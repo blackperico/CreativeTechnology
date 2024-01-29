@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 
 function Header() {
+    /* Navigation position upon scrolling window */
     useEffect(() => {
         const navigationMenu = document.querySelector('#navigation-menu');
         const navigation = document.querySelector('#navigation');

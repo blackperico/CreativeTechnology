@@ -15,7 +15,7 @@
         "Title": "Artificial Intelligence Ethics",
         "Author": "Evan Clarke",
         "Date": "2023-09-05",
-        "Image": null,
+        "Image": "artificialintelligenceethics.jpg",
         "Paragraphs": {
             "para1": "As AI systems become more autonomous, ethical concerns come to the forefront. The decisions made by these intelligent systems carry significant societal impact, necessitating ethical frameworks to guide their development and use.",
             "para2": "Ensuring transparency, accountability, and fairness within AI algorithms becomes paramount. Addressing biases, data privacy, and the responsible use of AI technologies remain ongoing challenges in the pursuit of ethical AI.",
@@ -26,7 +26,7 @@
         "Title": "The Rise of Neural Networks",
         "Author": "Zara Patel",
         "Date": "2023-10-24",
-        "Image": null,
+        "Image": "neuralnetworks.jpg",
         "Paragraphs": {
             "para1": "Neural networks, inspired by the human brain's neural connections, revolutionize machine learning. These interconnected nodes, or neurons, process information and learn patterns, enabling complex decision-making.",
             "para2": "Deep learning architectures, a subset of neural networks, achieve remarkable accuracy in tasks such as image recognition, natural language processing, and even autonomous driving. The depth and complexity of these networks contribute to their efficacy.",
@@ -37,7 +37,7 @@
         "Title": "The Blockchain Revolution",
         "Author": "Leo Foster",
         "Date": "2023-03-18",
-        "Image": null,
+        "Image": "blockchain.jpg",
         "Paragraphs": {
             "para1": "Blockchain technology, introduced by Bitcoin, extends beyond cryptocurrencies, offering decentralized and immutable ledger systems. Its distributed nature ensures transparency and security in transactions.",
             "para2": "Smart contracts, self-executing contracts with predefined conditions written into code, automate and enforce agreements on the blockchain. These contracts find applications in various sectors, streamlining processes.",
@@ -48,7 +48,7 @@
         "Title": "Robotic Process Automation",
         "Author": "Mason Carter",
         "Date": "2023-05-31",
-        "Image": null,
+        "Image": "robotauto.jpg",
         "Paragraphs": {
             "para1": "Robotic Process Automation (RPA) leverages software 'robots' to automate repetitive tasks, improving efficiency and accuracy in business processes. These robots emulate human interactions with digital systems.",
             "para2": "RPA finds applications across industries, from automating data entry and customer support to optimizing workflows and reducing operational costs. The ease of implementation and rapid ROI make RPA an attractive solution.",
@@ -59,7 +59,7 @@
         "Title": "Emergence of Quantum Cryptography",
         "Author": "Aria Foster",
         "Date": "2023-08-09",
-        "Image": null,
+        "Image": "quantumcrypto.jpg",
         "Paragraphs": {
             "para1": "Quantum cryptography leverages the principles of quantum mechanics to secure communications. Quantum key distribution (QKD) offers an unhackable method for exchanging encryption keys.",
             "para2": "The inherent properties of quantum particles make intercepted communication easily detectable, ensuring secure transmission. Quantum-resistant algorithms protect against potential threats posed by quantum computers.",
@@ -70,7 +70,7 @@
         "Title": "Ethical AI in Healthcare",
         "Author": "Harper Sullivan",
         "Date": "2023-12-19",
-        "Image": null,
+        "Image": "aihealth.jpg",
         "Paragraphs": {
             "para1": "AI technologies in healthcare offer promising advancements, from diagnosing diseases to personalized treatment plans. However, ensuring ethical use remains imperative in preserving patient trust and safety.",
             "para2": "Protecting patient data privacy, maintaining fairness in AI-driven decisions, and ensuring the explainability of AI models are critical ethical considerations. The alignment of AI practices with medical ethics is essential.",
@@ -81,7 +81,7 @@
         "Title": "Advancements in Quantum Sensors",
         "Author": "Evelyn Thompson",
         "Date": "2023-02-14",
-        "Image": null,
+        "Image": "quantumsensors.jpg",
         "Paragraphs": {
             "para1": "Quantum sensors leverage quantum properties to detect and measure physical phenomena with unprecedented precision. These sensors exploit quantum entanglement and superposition to surpass classical limits.",
             "para2": "Applications of quantum sensors range from quantum navigation and imaging to detecting gravitational waves and studying fundamental physics. Their sensitivity and accuracy open doors to new scientific discoveries.",
@@ -92,7 +92,7 @@
         "Title": "AI-Powered Cybersecurity",
         "Author": "Aiden White",
         "Date": "2023-11-28",
-        "Image": null,
+        "Image": "cybersecurity.jpg",
         "Paragraphs": {
             "para1": "AI-driven cybersecurity systems bolster defenses against evolving cyber threats. Machine learning algorithms analyze vast datasets to detect anomalies and patterns indicative of cyber attacks.",
             "para2": "Autonomous threat detection and response capabilities enhance the speed and accuracy of cybersecurity measures. AI models adapt to emerging threats, fortifying networks and systems against breaches.",
