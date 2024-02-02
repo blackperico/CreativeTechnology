@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 
 function Header() {
+    
     /* Navigation position upon scrolling window */
     useEffect(() => {
         const navigationMenu = document.querySelector('#navigation-menu');
@@ -23,7 +24,7 @@ function Header() {
                     navigation.style.height = `${navigationHeight}px`;
                     navigationMenu.style.position = 'fixed';
                     navigationMenu.style.top = '0px';
-                    navigationMenu.style.backgroundImage = 'linear-gradient(rgba(85, 85, 85, 0.6), rgba(85, 85, 85, 0.2))';
+                    navigationMenu.style.backgroundImage = 'linear-gradient(rgba(85, 85, 85, 0.7), rgba(85, 85, 85, 0.3))';
                     break;
                 case POSITIONS.default:
                     navigation.style.height = '';
@@ -58,6 +59,7 @@ function Header() {
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="Shop">Shop</Link></li>
                 <li>Search</li>
+
                 <li>Log out</li>
             </ul>
         </nav>
