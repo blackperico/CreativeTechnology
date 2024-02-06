@@ -1,30 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import articlesResponse from '../articles.json';
-
-function articleToggle(action, articleIcon, articles, articlesContainer, articlesTitle) {
-    const ACTIONS = {
-        expand: 'expand',
-        shrink: 'shrink'
-    };
-    
-    switch(action) {
-        case ACTIONS.expand:
-            articles.style.transitionTimingFunction = 'cubic-bezier(0.5, 2.0, 0.5, 1)';
-            articles.style.width = '250px';
-            articleIcon.style.display = 'none';
-            articlesContainer.style.display = 'block';
-            articlesTitle.style.display = 'block';
-            break;
-        case ACTIONS.shrink:
-            articles.style.transitionTimingFunction = 'cubic-bezier(1.0, 2.55, 0, 0.3)';
-            articles.style.height = '35px';
-            break;
-        default:
-            break;
-    }
-};
 
 function Article({ article }) {
     return(
@@ -45,123 +22,205 @@ function Article({ article }) {
     )
 };
 
-function Scroll() {
-    useEffect(() => {
-        const articles = document.querySelector('#articles');
-        const articlesContainer = document.querySelector('#articles-container');
-        const articlesHeight = getComputedStyle(articles).height.replace('px', '');
-        const articlesContainerHeight = getComputedStyle(articlesContainer).height.replace('px', '');
-        
-        if(articlesContainerHeight > articlesHeight) {
-            
-        }
-    });
-    
-    return(
-        <div id="scroll-path">
-            <div id="articles-scroll">
-
-            </div>
-        </div>
-    )
-};
-
 function Main() {
-    /* Open/Close */
+    const scrollRef = useRef(null);
+    const innerScrollRef = useRef(null);
+    const articlesRef = useRef(null);
+    const iconRef = useRef(null);
+    const titleRef = useRef(null);
+    const containerRef = useRef(null);
+    
     useEffect(() => {
-        const articlesContainer = document.getElementById('articles-container');
-        const articleIcon = document.getElementById('article-icon');
-        const articles = document.getElementById('articles');
-        const articlesTitle = document.getElementById('articles-title');
-        const svg = document.querySelector('#articles svg');
-        const articlesContainerHeight = Number(getComputedStyle(articlesContainer).height.replace('px', ''));
-        let isExpanded = false;
+        const scroll = scrollRef.current;
+        const innerScroll = innerScrollRef.current;
+        const articles = articlesRef.current;
+        const icon = iconRef.current;
+        const title = titleRef.current;
+        const container = containerRef.current;
+
+    /* Articles Position: fixed */
+        const mainLeft = document.getElementById('main-left');
+        let isFixed;
+        
+        function fixIt(action) {
+            articles.style.position = action === 'fix' ? 'fixed' : '';
+            articles.style.top = action === 'fix' ? '60px' : '';
+            isFixed = action === 'fix' ? true : false;
+            mainLeft.style.width = action === 'fix' ? `${articles.offsetWidth}px` : '';
+        };
+
+        fixIt(window.scrollY >= 180 ? 'fix' : 'reset');
+
+        window.addEventListener('scroll', () => {
+            if(window.scrollY >= 180 && isFixed !== true)
+                fixIt('fix');
+            if(window.scrollY < 180 && isFixed === true)
+                fixIt('reset');
+        });
+
+        const articlesContainerH = Number(getComputedStyle(container).height.replace('px', ''));
+        const TOGGLEACTIONS = {
+            expand: 'expand',
+            shrink: 'shrink'
+        };
+        const toggleElements = [title, articles, icon, icon.firstChild];
+        let isReadyHeight = true, isReadyWidth = true, isExpanded = false;
+        
+        function articleToggle(action) {
+            switch(action) {
+                case TOGGLEACTIONS.expand:
+                    articles.style.transitionTimingFunction = 'cubic-bezier(0.5, 2.0, 0.5, 1)';
+                    articles.style.width = '250px';
+                    icon.style.display = 'none';
+                    container.style.display = 'block';
+                    title.style.display = 'block';
+                    if(isFixed) {
+                        mainLeft.style.transitionTimingFunction = 'cubic-bezier(0.5, 2.0, 0.5, 1)';
+                        mainLeft.style.width = '286px';
+                    }
+                    break;
+                case TOGGLEACTIONS.shrink:
+                    articles.style.transitionTimingFunction = 'cubic-bezier(1.0, 2.55, 0, 0.3)';
+                    articles.style.height = '35px';
+                    break;
+                default:
+                    break;
+            }
+        };
         
         articles.addEventListener('click', (e) => {
-            if(e.target == articlesTitle || e.target == articles || e.target == svg || e.target == svg.firstChild) {
+            if(toggleElements.includes(e.target)) {
                 if(isExpanded == false) {
-                    articleToggle('expand', articleIcon, articles, articlesContainer, articlesTitle);
-                    isExpanded = true;
+                    if(isReadyHeight) {
+                        articleToggle(TOGGLEACTIONS.expand);
+                        isExpanded = true;
+                    }
                 }
                 else {
-                    articleToggle('shrink', articleIcon, articles, articlesContainer, articlesTitle);
-                    isExpanded = false;
+                    if(isReadyWidth) {
+                        articleToggle(TOGGLEACTIONS.shrink);
+                        isExpanded = false;
+                    }
                 }
+            }
+        });
+        articles.addEventListener('transitionstart', (e) => {
+            if(e.propertyName === 'width') {
+                isReadyWidth = false;
+            }
+            if(e.propertyName === 'height') {
+                isReadyHeight = false;
             }
         });
         articles.addEventListener('transitionend', (e) => {
-            if(isExpanded == true) {
-                if(articlesContainerHeight > 700)
-                    articles.style.height = '700px';
-                else if(articlesContainerHeight < 700)
-                    articles.style.height = '400px';
-                articleIcon.style.display = 'none';
-            } else {
-                articles.style.width = '35px';
-                articleIcon.style.display = '';
-                articlesTitle.style.display = '';
+            if(e.propertyName === 'width') {
+                isReadyWidth = true;
             }
-            if(isExpanded == false && e.propertyName == 'height')
-                articlesContainer.style.display = 'none';
+            if(e.propertyName === 'height') {
+                isReadyHeight = true;
+            }
+            /* On click width/height animation starts, this is second step */
+            if(e.propertyName === 'width' && isExpanded === true) {
+                if(articlesContainerH > 700)
+                    articles.style.height = '700px';
+                else {
+                    articles.style.height = `${articlesContainerH + 25}px`;
+                    scroll.style.display = 'none';
+                }
+            }
+            if(e.propertyName === 'height' && isExpanded === false) {
+                articles.style.width = '35px';
+                icon.style.display = '';
+                title.style.display = '';
+                if(isFixed) {
+                    mainLeft.style.transitionTimingFunction = 'cubic-bezier(1.0, 2.55, 0, 0.3)';
+                    mainLeft.style.width = '71px';
+                }
+            }
         });
 
-        articlesContainer.addEventListener('mouseover', () => {
+        container.addEventListener('mouseenter', () => {
+            articles.style.boxShadow = 'none';
+            innerScroll.style.backgroundColor = 'rgb(14, 14, 14)';
+            innerScroll.style.boxShadow = '0 0 3px rgb(25, 25, 25)';
+        });
+        container.addEventListener('mouseleave', () => {
+            articles.style.boxShadow = '';
+            innerScroll.style.backgroundColor = '';
+            innerScroll.style.boxShadow = '';
+        });
+        scroll.addEventListener('mouseenter', () => {
             articles.style.boxShadow = 'none';
         });
-        articlesContainer.addEventListener('mouseleave', () => {
+        scroll.addEventListener('mouseleave', () => {
             articles.style.boxShadow = '';
         });
-    }, []);
-
-/* WORK IN PROGRESS-SCROLLING Articles */
-useEffect(() => {
-    const articles = document.getElementById('articles');
-    const articlesContainer = document.getElementById('articles-container');
-    const articlesTitle = document.getElementById('articles-title');
-    const scrollPath = document.getElementById('scroll-path');
-    const articlesScroll = document.getElementById('articles-scroll');
-    let isClicked = 0, scroll = 0;
-    let articlesContainerH = articlesContainer.offsetHeight, articlesH, articlesTitleH;
-    let maxScroll, scrollH = articlesScroll.offsetHeight;
-    let pixelEquivalent, padding = 20;
-    
-    articlesContainer.addEventListener('mousedown', () => {
-        isClicked = 1;
-        maxScroll = scrollPath.offsetHeight - scrollH;
-        articlesH = articles.offsetHeight;
-        articlesTitleH = articlesTitle.offsetHeight;
-        pixelEquivalent = (articlesContainerH - articlesH + articlesTitleH + padding) / maxScroll;
-    });
-    articlesContainer.addEventListener('mousemove', (e) => {
-        if(isClicked === 1) {
-            scroll = scroll + e.movementY;
-            if(-scroll >= maxScroll)
-                scroll = -maxScroll;
-            if(-scroll < 0)
-                scroll = 0;
-            articlesContainer.style.transform = `translateY(${scroll * pixelEquivalent}px)`;
-            articlesTitle.style.transform = `translateY(${scroll * pixelEquivalent}px)`;
-            /* FIX CALCULATION, FROM *2 TO PRECISE NUM */
-            articlesScroll.style.transform = `translateY(${(-scroll)}px)`;
+    /* SCROLLING FUNCTIONALITY */
+        let isClicked = 0, scrollValue = 0;
+        let articlesH, articlesTitleH;
+        let maxScroll, scrollH = innerScroll.offsetHeight;
+        let pixelEquivalent, padding = 20;
+        
+        container.addEventListener('mousedown', () => {
+            isClicked = 1;
+            maxScroll = scroll.offsetHeight - scrollH;
+            articlesH = articles.offsetHeight;
+            articlesTitleH = title.offsetHeight;
+            pixelEquivalent = (articlesContainerH - articlesH + articlesTitleH + padding) / maxScroll;
+        });
+        /* !WARNING: MAKE IT NAMED FUNCTION AND DO A WHEEL SCROLL */
+        function moveIt(e, wheelScroll) {
+            if(e === null)
+                isClicked = 1;
+            if(isClicked === 1) {
+                scrollValue = wheelScroll === undefined ? scrollValue + e.movementY : scrollValue + wheelScroll;
+                if(-scrollValue >= maxScroll)
+                    scrollValue = -maxScroll;
+                if(-scrollValue < 0)
+                    scrollValue = 0;
+                container.style.transform = `translateY(${scrollValue * pixelEquivalent}px)`;
+                title.style.transform = `translateY(${scrollValue * pixelEquivalent}px)`;
+                innerScroll.style.transform = `translateY(${(-scrollValue)}px)`;
+                console.log(pixelEquivalent);
+            }
+            if(e === null)
+                isClicked = 0;
         }
-    });
-    window.addEventListener('mouseup', () => {
-        isClicked = 0;
-    });
+        window.addEventListener('mousemove', moveIt);
+        window.addEventListener('mouseup', () => {
+            isClicked = 0;
+        });
+
+        /* WORK: Make calls to scroll F */
+        articles.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            maxScroll = scroll.offsetHeight - scrollH;
+            articlesH = articles.offsetHeight;
+            articlesTitleH = title.offsetHeight;
+            pixelEquivalent = (articlesContainerH - articlesH + articlesTitleH + padding) / maxScroll;
+            if(e.deltaY == '-100')
+                moveIt(null, 40);
+            if(e.deltaY == '100')
+                moveIt(null, -40);
+        });
 }, []);
 
     return(
-        <div id="articles">
-            <FontAwesomeIcon icon={faFileLines} id="article-icon" />
-            <div id="articles-title">
+        <div id="articles" ref={articlesRef}>
+            <FontAwesomeIcon icon={faFileLines} id="article-icon" ref={iconRef}/>
+            <div id="articles-title" ref={titleRef}>
                 Articles
             </div>
-            <div id="articles-container">
+            <div id="articles-container" ref={containerRef}>
                 {articlesResponse.Articles.map((article, index) => {
                     return <Article article={article} key={index} />;
                 })}
             </div>
-            <Scroll />
+            <div id="scroll-path" ref={scrollRef}>
+                <div id="articles-scroll" ref={innerScrollRef}>
+
+                </div>
+            </div>
         </div>
     )
 }
