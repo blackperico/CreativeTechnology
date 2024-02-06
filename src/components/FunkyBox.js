@@ -1,16 +1,18 @@
 import { useEffect, useRef } from "react";
 
-function FunkyBox(prop) {
+function FunkyBox({prop}) {
     const boxRef = useRef(null);
     const dropdownRef = useRef(null);
-    const mainColor = prop.colors[0], hoverColor = prop.colors[1], dropdownColor = prop.colors[2];
-
+    const titleRef = useRef(null);
+    const mainColor = prop.mainColor, hoverColor = prop.hoverColor, dropdownColor = prop.dropdownColor;
+    
     useEffect(() => {
         const box = boxRef.current;
         const dropdown = dropdownRef.current;
+        const title = titleRef.current;
         let isExpanded = false;
         const dropdownH = dropdown.offsetHeight, boxMargin = Number(getComputedStyle(box).marginBottom.replace('px', ''));
-
+        
         box.style.backgroundColor = mainColor;
         dropdown.style.backgroundColor = dropdownColor;
 
@@ -50,7 +52,7 @@ function FunkyBox(prop) {
                 isExpanded = false;}
         });
         box.addEventListener('mouseover', (e) => {
-            if(e.target === box)
+            if(e.target === box || title) 
                 hoverStyle.hover();
             else
                 hoverStyle.reset();
@@ -58,12 +60,12 @@ function FunkyBox(prop) {
         box.addEventListener('mouseleave', (e) => {
             hoverStyle.reset();
         });
-    }, [prop]);
+    }, []);
     
 
     return (
         <div className="funky-box" ref={boxRef}>
-            {prop.title}
+            <p ref={titleRef}>{prop.title}</p>
             <div className="funky-dropdown" ref={dropdownRef}>
 
             </div>
