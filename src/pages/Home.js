@@ -6,11 +6,26 @@ import FunkyBox from '../components/FunkyBox';
 import MainRight from '../components/MainRight';
 
 function Main() {
-    const funkyBoxColors = {
-        one: ['rgba(0, 255, 255, 1)', 'rgba(0, 255, 255, 0.6)', 'rgba(0, 255, 255, 0.2)'],
-        two: ['rgba(255, 0, 255, 1)', 'rgba(255, 0, 255, 0.6)', 'rgba(255, 0, 255, 0.2)'],
-        three: ['rgba(255, 255, 0, 1)', 'rgba(255, 255, 0, 0.6)', 'rgba(255, 255, 0, 0.2)']
-    };
+    const funkyBoxes = [
+        {
+            title: 'Top-sellers',
+            mainColor: 'rgba(0, 255, 255, 1)',
+            hoverColor: 'rgba(0, 255, 255, 0.6)',
+            dropdownColor: 'rgba(0, 255, 255, 0.2)'
+        },
+        {
+            title: 'Featured',
+            mainColor: 'rgba(255, 0, 255, 1)',
+            hoverColor: 'rgba(255, 0, 255, 0.6)',
+            dropdownColor: 'rgba(255, 0, 255, 0.2)'
+        },
+        {
+            title: 'Recommended',
+            mainColor: 'rgba(255, 255, 0, 1)',
+            hoverColor: 'rgba(255, 255, 0, 0.6)',
+            dropdownColor: 'rgba(255, 255, 0, 0.2)'
+        }
+    ];
 
     return(
         <div id="main-container">
@@ -18,9 +33,9 @@ function Main() {
                 <Articles />
             </div>
             <div id="main-middle">
-                <FunkyBox colors = {funkyBoxColors.one} title = 'Top-sellers' />
-                <FunkyBox colors = {funkyBoxColors.two} title = 'Featured' />
-                <FunkyBox colors = {funkyBoxColors.three} title = 'Recommended' />
+                {funkyBoxes.map((funkyBox) => {
+                    return <FunkyBox prop = {funkyBox} />
+                })}
             </div>
             <MainRight />
         </div>
