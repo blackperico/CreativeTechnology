@@ -53,8 +53,8 @@ function MainRight() {
         };
         function hoverStyles(state) {
             const transition = getComputedStyle(slideContainer).transition;
-
-            popButton.style.boxShadow = state === HOVERSTATES.hover ? "0 0 15px #000" : '';
+            
+            popButton.querySelector('path').style.filter = state === HOVERSTATES.hover ? "drop-shadow(0 0 70px #000)" : '';
             slideContainer.style.boxShadow = state === HOVERSTATES.hover ? "0 0 10px #000" : '';
             slideContainer.style.transition = state === HOVERSTATES.hover ? transition.replace(/width [^,;]+/, 'width 1000ms') : '';
             if(displayStateRef.current === DISPLAYSTATES.closed)
