@@ -37,9 +37,8 @@ function Main() {
         const icon = iconRef.current;
         const title = titleRef.current;
         const container = containerRef.current;
-
-    /* Articles Position: fixed */
         const mainLeft = document.getElementById('main-left');
+
         let isFixed;
         
         function fixIt(action) {
@@ -48,7 +47,6 @@ function Main() {
             isFixed = action === 'fix' ? true : false;
             mainLeft.style.width = action === 'fix' ? `${articles.offsetWidth}px` : '';
         };
-
         fixIt(window.scrollY >= 180 ? 'fix' : 'reset');
 
         window.addEventListener('scroll', () => {
@@ -161,14 +159,6 @@ function Main() {
         let maxScroll, scrollH = innerScroll.offsetHeight;
         let pixelEquivalent, padding = 20;
         
-        container.addEventListener('mousedown', () => {
-            isClicked = 1;
-            maxScroll = scroll.offsetHeight - scrollH;
-            articlesH = articles.offsetHeight;
-            articlesTitleH = title.offsetHeight;
-            pixelEquivalent = (articlesContainerH - articlesH + articlesTitleH + padding) / maxScroll;
-        });
-        /* !WARNING: MAKE IT NAMED FUNCTION AND DO A WHEEL SCROLL */
         function moveIt(e, wheelScroll) {
             if(e === null)
                 isClicked = 1;
@@ -181,17 +171,22 @@ function Main() {
                 container.style.transform = `translateY(${scrollValue * pixelEquivalent}px)`;
                 title.style.transform = `translateY(${scrollValue * pixelEquivalent}px)`;
                 innerScroll.style.transform = `translateY(${(-scrollValue)}px)`;
-                console.log(pixelEquivalent);
             }
             if(e === null)
                 isClicked = 0;
-        }
+        };
+
+        container.addEventListener('mousedown', () => {
+            isClicked = 1;
+            maxScroll = scroll.offsetHeight - scrollH;
+            articlesH = articles.offsetHeight;
+            articlesTitleH = title.offsetHeight;
+            pixelEquivalent = (articlesContainerH - articlesH + articlesTitleH + padding) / maxScroll;
+        });
         window.addEventListener('mousemove', moveIt);
         window.addEventListener('mouseup', () => {
             isClicked = 0;
         });
-
-        /* WORK: Make calls to scroll F */
         articles.addEventListener('wheel', (e) => {
             e.preventDefault();
             maxScroll = scroll.offsetHeight - scrollH;
