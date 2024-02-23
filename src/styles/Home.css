@@ -91,47 +91,59 @@
     width: calc(100% - 25px);
     height: 140px;
     margin: 0 10px 20px;
-    background-color: rgba(125, 240, 255, 0.2);
     border-radius: 10px;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     overflow: hidden;}
 .article-box:hover .article-img {filter: brightness(170%)}
 .article-title {height: fit-content;
-    width: calc(100% - 40px);
-    margin: 0 20px;
+    width: fit-content; 
+    max-width: calc(100% - 40px);
+    margin: 0 auto;
     padding-bottom: 10px;
     font-family: inherit;
     font-size: 18px;
     white-space: wrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    text-align: center;}
+    text-align: center;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    text-shadow: 0 0 5px #fff;}
 .article-author {position: absolute;
-    left: 5px;
+    left: 5px; 
     bottom: 20px;
+    width: fit-content;
     font-family: Georgia, 'Times New Roman', Times, serif;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: 100%;
     text-align: start;
     font-size: 18px;
-    color: rgba(0, 0, 0, 1);}
-.article-date {position: absolute;
+    border-radius: 10px;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.050);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    text-shadow: 0 0 4px #fff;}
+.article-date {position: absolute; 
     bottom: 5px;
     right: 5px;
     font-family: inherit; 
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    text-align: end;}
+    text-align: end;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    text-shadow: 0 0 3px #fff;}
 .article-img {position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: filter 900ms;
+    opacity: 0.9;
+    transition: filter 1000ms;
     z-index: -1;}
 #scroll-path {position: absolute;
     top: 70px;
