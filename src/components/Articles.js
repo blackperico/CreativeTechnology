@@ -38,103 +38,129 @@ function Main() {
         const title = titleRef.current;
         const container = containerRef.current;
         const mainLeft = document.getElementById('main-left');
-
-        let isFixed;
+        const navigation = document.getElementById('navigation'), navigationH = navigation.offsetHeight;
+        const navigationMenu = document.getElementById('navigation-menu'), navigationMenuH = navigationMenu.offsetHeight;
         
+        const toggleElements = [title, articles, icon, icon.firstChild];
+        const fixValue = navigationH - navigationMenuH;
+        const articlesExpandW = 260, articlesExtraPadding = 36, articlesShrinkW = 35;
+        const articlesContainerH = Number(getComputedStyle(container).height.replace('px', ''));
+        let isFixed;
+
         function fixIt(action) {
+            mainLeft.style.height = action === 'fix' ? `${articles.offsetHeight}px` : '';
+            mainLeft.style.width = action === 'fix' ? `${articles.offsetWidth}px` : '';
             articles.style.position = action === 'fix' ? 'fixed' : '';
             articles.style.top = action === 'fix' ? '60px' : '';
             isFixed = action === 'fix' ? true : false;
-            mainLeft.style.width = action === 'fix' ? `${articles.offsetWidth}px` : '';
         };
-        fixIt(window.scrollY >= 180 ? 'fix' : 'reset');
+        fixIt(window.scrollY >= fixValue ? 'fix' : 'reset');
 
         window.addEventListener('scroll', () => {
-            if(window.scrollY >= 180 && isFixed !== true)
+            if(window.scrollY >= fixValue && isFixed !== true) {
                 fixIt('fix');
-            if(window.scrollY < 180 && isFixed === true)
+            }
+            if(window.scrollY < fixValue && isFixed === true)
                 fixIt('reset');
         });
 
-        const articlesContainerH = Number(getComputedStyle(container).height.replace('px', ''));
-        const TOGGLEACTIONS = {
-            expand: 'expand',
-            shrink: 'shrink'
+        let currentPhase = null;
+        const phases = {
+            expandPhase1: {
+                value: false,
+                name: 'expandPhase1'
+            },
+            expandPhase2: {
+                value: false,
+                name: 'expandPhase2'
+            },
+            shrinkPhase1: {
+                value: false,
+                name: 'shrinkPhase1'
+            },
+            shrinkPhase2: {
+                value: false,
+                name: 'shrinkPhase2'
+            },
+            applyPhase: function applyPhase(applyKey) {
+                for(let key in this)
+                    if(typeof this[key] !== 'function')
+                        if(this[key].name !== applyKey.name)
+                            this[key].value = false;
+                        else
+                            this[key].value = true;
+                currentPhase = applyKey;
+            }
         };
-        const toggleElements = [title, articles, icon, icon.firstChild];
-        let isReadyHeight = true, isReadyWidth = true, isExpanded = false;
-        
-        function articleToggle(action) {
-            switch(action) {
-                case TOGGLEACTIONS.expand:
+        const toggleActions = {
+            expand: {
+                phase1: () => {
+                    phases.applyPhase(phases.expandPhase1.name);
                     articles.style.transitionTimingFunction = 'cubic-bezier(0.5, 2.0, 0.5, 1)';
-                    articles.style.width = '250px';
+                    articles.style.width = `${articlesExpandW}px`;
                     icon.style.display = 'none';
                     container.style.display = 'block';
                     title.style.display = 'block';
                     if(isFixed) {
                         mainLeft.style.transitionTimingFunction = 'cubic-bezier(0.5, 2.0, 0.5, 1)';
-                        mainLeft.style.width = '286px';
+                        mainLeft.style.width = `${articlesExpandW + articlesExtraPadding}px`;
                     }
-                    break;
-                case TOGGLEACTIONS.shrink:
+                },
+                phase2: () => {
+                    phases.applyPhase(phases.expandPhase2.name);
+                    if(articlesContainerH > 700)
+                        articles.style.height = '700px';
+                    else {
+                        articles.style.height = `${articlesContainerH + 25}px`;
+                        scroll.style.display = 'none';
+                    }
+                }
+            },
+            shrink: {
+                phase1: () => {
+                    phases.applyPhase(phases.shrinkPhase1.name);
                     articles.style.transitionTimingFunction = 'cubic-bezier(1.0, 2.55, 0, 0.3)';
-                    articles.style.height = '35px';
-                    break;
-                default:
-                    break;
+                    articles.style.height = `${articlesShrinkW}px`;
+                },
+                phase2: () => {
+                    phases.applyPhase(phases.shrinkPhase2.name);
+                    articles.style.width = `${articlesShrinkW}px`;
+                    icon.style.display = '';
+                    title.style.display = '';
+                    if(isFixed) {
+                        mainLeft.style.transitionTimingFunction = 'cubic-bezier(1.0, 2.55, 0, 0.3)';
+                        mainLeft.style.width = `${articlesShrinkW + articlesExtraPadding}px`;
+                    }
+                }
             }
         };
         
         articles.addEventListener('click', (e) => {
             if(toggleElements.includes(e.target)) {
-                if(isExpanded == false) {
-                    if(isReadyHeight) {
-                        articleToggle(TOGGLEACTIONS.expand);
-                        isExpanded = true;
-                    }
+                switch(currentPhase) {
+                    case null: 
+                        toggleActions.expand.phase1();
+                        break;
+                    case phases.shrinkPhase2.name:
+                        toggleActions.expand.phase1();
+                        break;
+                    case phases.shrinkPhase1.name:
+                        toggleActions.expand.phase2();
+                        break;
+                    case phases.expandPhase2.name:
+                        toggleActions.shrink.phase1();
+                        break;
+                    case phases.expandPhase1.name:
+                        toggleActions.shrink.phase2();
+                        break;
                 }
-                else {
-                    if(isReadyWidth) {
-                        articleToggle(TOGGLEACTIONS.shrink);
-                        isExpanded = false;
-                    }
-                }
-            }
-        });
-        articles.addEventListener('transitionstart', (e) => {
-            if(e.propertyName === 'width') {
-                isReadyWidth = false;
-            }
-            if(e.propertyName === 'height') {
-                isReadyHeight = false;
             }
         });
         articles.addEventListener('transitionend', (e) => {
-            if(e.propertyName === 'width') {
-                isReadyWidth = true;
-            }
-            if(e.propertyName === 'height') {
-                isReadyHeight = true;
-            }
-            /* On click width/height animation starts, this is second step */
-            if(e.propertyName === 'width' && isExpanded === true) {
-                if(articlesContainerH > 700)
-                    articles.style.height = '700px';
-                else {
-                    articles.style.height = `${articlesContainerH + 25}px`;
-                    scroll.style.display = 'none';
-                }
-            }
-            if(e.propertyName === 'height' && isExpanded === false) {
-                articles.style.width = '35px';
-                icon.style.display = '';
-                title.style.display = '';
-                if(isFixed) {
-                    mainLeft.style.transitionTimingFunction = 'cubic-bezier(1.0, 2.55, 0, 0.3)';
-                    mainLeft.style.width = '71px';
-                }
-            }
+            if(e.propertyName === 'width' && currentPhase === phases.expandPhase1.name)
+                toggleActions.expand.phase2();
+            if(e.propertyName === 'height' && currentPhase === phases.shrinkPhase1.name)
+                toggleActions.shrink.phase2();
         });
 
         container.addEventListener('mouseenter', () => {
