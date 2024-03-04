@@ -98,15 +98,15 @@ function Footer() {
                                 <FontAwesomeIcon id='footer-collapsible-arrow' icon={faCaretUp} />
                             </div>
                             <div id="footer-collapsible-content">
-                                <Link to="">
-                                    Log into account.
-                                </Link>
-                                <Link to="">
-                                    Create account.
-                                </Link>
-                                <Link to="">
-                                    Forgot password?
-                                </Link>
+                            <Link to="/Login">
+                                Log into account.
+                            </Link>
+                            <Link to="/CreateAccount">
+                                Create account.
+                            </Link>
+                            <Link to="/ResetPassword">
+                                Forgot password?
+                            </Link>
                             </div>
                         </div>
                         <div id="footer-collapsible">
@@ -161,17 +161,17 @@ function Footer() {
                         <h5 className='footer-box-title'>USER ACCOUNT</h5>
                         <div className='footer-box-links'>
                             <div className='footer-box-links-link'>
-                                <Link to="">
+                                <Link to="/Login">
                                     Log into account.
                                 </Link>
                             </div>
                             <div className='footer-box-links-link'>
-                                <Link to="">
+                                <Link to="/CreateAccount">
                                     Create account.
                                 </Link>
                             </div>
                             <div className='footer-box-links-link'>
-                                <Link to="">
+                                <Link to="/ResetPassword">
                                     Forgot password?
                                 </Link>
                             </div>
