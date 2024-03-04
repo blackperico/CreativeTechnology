@@ -2,16 +2,22 @@
     {
         "email": "as93@gmail.com",
         "username": "aco",
-        "password": "admin"
+        "password": "admin",
+        "id": "profile0",
+        "image": "parrot.jpg"
     }, 
     {
         "email": "as39@gmail.com",
         "username": "funky",
-        "password": "admin"
+        "password": "admin",
+        "id": "profile1",
+        "image": "cat.jpg"
     }, 
     {
         "email": "ass@gmail.com",
         "username": "cava",
-        "password": "admin"
+        "password": "admin",
+        "id": "profile2",
+        "image": "dog.jpg"
     }
 ]
