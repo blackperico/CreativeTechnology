@@ -1,0 +1,148 @@
+[
+    {
+        "id": "game0",
+        "title": "Elden Ring",
+        "price": 59.99,
+        "discount": 25,
+        "tags": [
+            "Open-World",
+            "Souls-Like",
+            "RPG",
+            "Dark Fantasy",
+            "Action",
+            "Single Player"
+        ],
+        "mainImage": "eldenring.png",
+        "images": [
+            "eldenring0.png",
+            "eldenring1.png",
+            "eldenring2.png",
+            "eldenring3.png"
+        ],
+        "reviews": 93
+    },
+    {
+        "id": "game1",
+        "title": "War Thunder",
+        "price": "Free",
+        "discount": null,
+        "tags": [
+            "War",
+            "Simulation",
+            "Multiplayer",
+            "Shooter",
+            "Combat",
+            "Realistic"
+        ],
+        "mainImage": "wt.jpg",
+        "images": [
+            "wt0.jpg",
+            "wt1.jpg",
+            "wt2.jpg",
+            "wt3.jpg",
+            "wt4.jpg",
+            "wt5.jpg",
+            "wt6.jpg",
+            "wt7.jpg",
+            "wt8.jpg",
+            "wt9.jpg"
+        ],
+        "reviews": 79
+    },
+    {
+        "id": "game2",
+        "title": "Ghost of Tsushima",
+        "price": 49.99,
+        "discount": null,
+        "tags": [
+            "Action",
+            "RPG",
+            "Samurai",
+            "Single Player",
+            "Open-World"
+        ],
+        "mainImage": "ghostoftsushima.jpg",
+        "images": [
+            "got0.jpg",
+            "got1.jpg",
+            "got2.jpg",
+            "got3.jpg",
+            "got4.jpg"
+        ],
+        "reviews": 83
+    },
+    {
+        "id": "game3",
+        "title": "CyberPunk 2077",
+        "price": 59.99,
+        "discount": 50,
+        "tags": [
+            "Futuristic",
+            "Single Player",
+            "Shooter",
+            "RPG",
+            "Open-World",
+            "Tech",
+            "Violent"
+        ],
+        "mainImage": "cyberpunk.jpg",
+        "images": [
+            "cp0.jpg",
+            "cp1.jpg",
+            "cp2.jpg",
+            "cp3.jpg",
+            "cp4.jpg",
+            "cp5.jpg",
+            "cp6.jpg",
+            "cp7.jpg",
+            "cp8.jpg"
+        ],
+        "reviews": 87
+    },
+    {
+        "id": "game4",
+        "title": "Titan Quest",
+        "price": 19.99,
+        "discount": 75,
+        "tags": [
+            "Single Player",
+            "RPG",
+            "Action",
+            "Third-Person",
+            "Adventure"
+        ],
+        "mainImage": "titanquest.jpg",
+        "images": [
+            "tq0.jpg",
+            "tq1.jpg",
+            "tq2.jpg",
+            "tq3.jpg",
+            "tq4.jpg",
+            "tq5.jpg"
+        ],
+        "reviews": 79
+    },
+    {
+        "id": "game5",
+        "title": "Stalker 2",
+        "price": 59.99,
+        "discount": null,
+        "tags": [
+            "Nuclear-Apocalypse",
+            "Shooter",
+            "Adventure",
+            "Action",
+            "Single Player",
+            "Open-World"
+        ],
+        "mainImage": "stalkertwo.jpg",
+        "images": [
+            "stalker0.jpg",
+            "stalker1.jpg",
+            "stalker2.jpg",
+            "stalker3.jpg",
+            "stalker4.jpg"
+        ],
+        "reviews": 89
+    }
+]
