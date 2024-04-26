@@ -4,13 +4,85 @@ import { useEffect, useRef } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareXTwitter, faLinkedin, faSquareFacebook, faSquareInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faPhone, faArrowRightFromBracket, faGear, faUser } from '@fortawesome/free-solid-svg-icons';
 
+function ProfilePhoto({prop}) {
+    const photoRef = useRef(null);
+    const dropdownRef = useRef(null);
+    const logoutRef = useRef(null);
 
-function Header() {
+    useEffect(() => {
+        const photo = photoRef.current;
+        const dropdown = dropdownRef.current;
+        const logoutLink = logoutRef.current;
+
+        function logout() {
+            sessionStorage.removeItem('profile');
+            window.location.reload();
+        };
+        function toggle(e) {
+            if(e.target === photo) {
+                const display = getComputedStyle(dropdown).display;
+
+                if(display === 'none')
+                    dropdown.style.display = 'flex';
+                else
+                    dropdown.style.display = 'none';
+            }
+        };
+
+        photo.addEventListener('click', toggle);
+        logoutLink.addEventListener('click', logout);
+    }, []);
+    
+    return(
+        <>
+            <li id="profile-photo-container">
+                <img className="profile-photo"
+                    ref={photoRef}
+                    src={require(`../profileimg/${prop.image}`)}
+                    alt="profile-photo">
+
+                </img>
+
+                <ul id="profile-dropdown" ref={dropdownRef}>
+                    <li id="profile-dropdown-name">{prop.username}</li>
+                    <li>
+                        <span className="profile-dropdown-icon"><FontAwesomeIcon icon={faUser} className="icon" /></span>
+                        <div className="profile-dropdown-text">Profile</div>
+                    </li>
+                    <li>
+                        <span className="profile-dropdown-icon"><FontAwesomeIcon icon={faGear} className="icon" /></span>
+                        <div className="profile-dropdown-text">Account Settings</div>
+                    </li>
+                    <li ref={logoutRef}>
+                        <span className="profile-dropdown-icon"><FontAwesomeIcon icon={faArrowRightFromBracket} className="icon" style={{transform: "rotate(180deg)"}} /></span>
+                        <div className="profile-dropdown-text">Log out</div>
+                    </li>
+                </ul>
+            </li>
+        </>
+    )
+};
+function LoginLink() {
+
+    return(
+        <li className="underline">
+            <Link to="/Login">
+                Log in
+            </Link>
+        </li>
+    )
+};
+
+function Header({prop}) {
     const navigationRef = useRef(null);
     const navigationMenuRef = useRef(null);
-    /* implement ref hook, rework colors */
+
+    const login = prop[0];
+    const activeAccount = prop[1];
+    const loginText = login ? <ProfilePhoto prop={activeAccount} /> : <LoginLink />;
+    
     useEffect(() => {
         const navigation = navigationRef.current;
         const navigationMenu = navigationMenuRef.current;
@@ -29,7 +101,7 @@ function Header() {
                     navigation.style.height = `${navigationHeight}px`;
                     navigationMenu.style.position = 'fixed';
                     navigationMenu.style.top = '0px';
-                    navigationMenu.style.backgroundImage = 'linear-gradient(rgba(85, 85, 85, 0.8), rgba(85, 85, 85, 0.4)';
+                    navigationMenu.style.backgroundImage = 'linear-gradient(45deg, rgb(75, 105, 255) 0, rgb(179, 233, 255) 45%, rgb(209 91 255 / 80%) 50%, rgb(5 243 255 / 95%) 55%, rgb(5, 243, 255) 69%, rgb(50, 111, 255) 90%)';
                     navigation.style.backgroundImage = 'none';
                     break;
                 case POSITIONS.default:
@@ -127,6 +199,7 @@ function Header() {
                             Email copied!
                         </div>
                     </div>
+
                     <div className="header-contact-info">
                         <FontAwesomeIcon icon={faPhone} className="media-icon" onClick={copyContact} />
                         <p id="phone">068-430-139</p>
@@ -137,11 +210,11 @@ function Header() {
                 </div>
             </div>
             <ul id="navigation-menu" ref={navigationMenuRef}>
-                <li>Menu</li>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="Shop">Shop</Link></li>
-                <li>Search</li>
-                <li>Log out</li>
+                <li className="underline">Menu</li>
+                <li className="underline"><Link to="/">Home</Link></li>
+                <li className="underline"><Link to="/Shop">Shop</Link></li>
+                <li className="underline">Search</li>
+                {loginText}
             </ul>
         </nav>
 
