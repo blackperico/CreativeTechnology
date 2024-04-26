@@ -1,64 +1,88 @@
 import { useEffect, useRef } from "react";
+import '../styles/FunkyBox.css';
+import FunkyContainer from "./FunkyContainer";
 
 function FunkyBox({prop}) {
     const boxRef = useRef(null);
-    const dropdownRef = useRef(null);
     const titleRef = useRef(null);
-    const mainColor = prop.mainColor, hoverColor = prop.hoverColor, dropdownColor = prop.dropdownColor;
+    const dropdownRef = useRef(null);
+
+    const mainColor = prop.mainColor,
+        hoverColor = prop.hoverColor,
+        dropdownColor = prop.dropdownColor;
+        // ADD COLORS: overscroll and scroll indicator
+    const products = prop.json;
     
     useEffect(() => {
         const box = boxRef.current;
-        const dropdown = dropdownRef.current;
         const title = titleRef.current;
+        const dropdown = dropdownRef.current;
         let isExpanded = false;
-        const dropdownH = dropdown.offsetHeight, boxMargin = Number(getComputedStyle(box).marginBottom.replace('px', ''));
-        
+
         box.style.backgroundColor = mainColor;
         dropdown.style.backgroundColor = dropdownColor;
 
-        const hoverStyle = {
-            hover: () => {
+        const boxH = box.offsetHeight,
+            boxMargin = Number(getComputedStyle(box).marginBottom.replace('px', ''));
+        let dropdownH = dropdown.offsetHeight;
+
+        window.addEventListener('resize', () => {
+            if(dropdownH !== dropdown.offsetHeight) {
+                dropdownH = dropdown.offsetHeight;
+                if(isExpanded)
+                    dropdownStyles.open();
+            }
+        });
+
+        const hoverStyles = {
+            active: () => {
                 box.style.backgroundColor = hoverColor;
-                box.style.boxShadow = '0 0 5px rgb(0, 0, 0)';
+                box.style.boxShadow = '0 0 5px #000';
             },
-            reset: () => {
+            default: () => {
                 box.style.backgroundColor = mainColor;
                 box.style.boxShadow = '';
             }
         };
-        const dropdownState = {
-            active: () => {
+        const dropdownStyles = {
+            open: () => {
+                dropdown.style.zIndex = '1';
+                dropdown.style.opacity = '1';
+                dropdown.style.top = `${boxH}px`;
                 box.style.borderBottomLeftRadius = '0';
                 box.style.borderBottomRightRadius = '0';
-                dropdown.style.opacity = '1';
-                dropdown.style.top = '50px';
                 box.style.marginBottom = `${dropdownH + boxMargin}px`;
+                isExpanded = true;
             },
-            default: () => {
-                box.style.borderBottomLeftRadius = '';
-                box.style.borderBottomRightRadius = '';
-                dropdown.style.opacity = '';
-                dropdown.style.top = '';
-                box.style.marginBottom = '';
+            close: () => {
+                dropdown.style.zIndex = '-1';
+                dropdown.style.opacity = '0';
+                dropdown.style.top = '-200px';
+                box.style.borderRadius = '25px';
+                box.style.marginBottom = '15px';
+                isExpanded = false;
             }
         };
-    
-        box.addEventListener('click', (e) => {
-            if(isExpanded === false)
-                {dropdownState.active();
-                isExpanded = true;}
-            else
-                {dropdownState.default();
-                isExpanded = false;}
-        });
+        dropdownStyles.open();
+
+        function expandSwitch(e) {
+            if(e.target === title || e.target === box) {
+                if(isExpanded === false)
+                    dropdownStyles.open();
+                else
+                    dropdownStyles.close();
+            }
+        };
+
+        box.addEventListener('click', expandSwitch);
         box.addEventListener('mouseover', (e) => {
-            if(e.target === box || title) 
-                hoverStyle.hover();
+            if(e.target === box || e.target === title) 
+                hoverStyles.active();
             else
-                hoverStyle.reset();
+                hoverStyles.default();
         });
         box.addEventListener('mouseleave', (e) => {
-            hoverStyle.reset();
+            hoverStyles.default();
         });
     }, []);
     
@@ -67,7 +91,7 @@ function FunkyBox({prop}) {
         <div className="funky-box" ref={boxRef}>
             <p ref={titleRef}>{prop.title}</p>
             <div className="funky-dropdown" ref={dropdownRef}>
-
+                <FunkyContainer products={products} overscrollColor={hoverColor} mainColor={mainColor} />
             </div>
         </div>
     )
