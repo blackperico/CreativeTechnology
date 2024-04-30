@@ -1,6 +1,8 @@
 :root {
     --primary-color-navigation: linear-gradient(rgba(85, 85, 85, 0.8), rgba(85, 85, 85, 0.4));
     --secondary-color-navigation: linear-gradient(rgba(0, 167, 179, 0.8), rgba(17, 0, 255, 0.4));
+    --navigation-menu-fixed: linear-gradient(45deg, rgba(17, 0, 255, 0.4) 10%, rgb(0 167 179 / 50%) 40.5%, rgb(249, 255, 0) 40.5%, rgba(96, 214, 247, 0.7) 65%);
+    --navigation-menu-fixed-sec: linear-gradient(45deg, rgba(17, 0, 255, 0.4) 10%, rgba(0, 167, 179, 0.5) 40.5%, rgba(249, 255, 0, 0.95) 40.5%, rgba(235, 110, 110, 0.90) 60%, rgba(71, 223, 254, 0.4) 60%);
 }
 ::selection {background-color: #000;
     color: #fff;}

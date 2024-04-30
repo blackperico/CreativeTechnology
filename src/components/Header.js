@@ -89,7 +89,20 @@ function Header({prop}) {
         const navigationHeight = getComputedStyle(navigation).height.replace('px', '');
         const navigationMenuHeight = getComputedStyle(navigationMenu).height.replace('px', '');
         const heightDifference = navigationHeight - navigationMenuHeight;
+
+        const navigationMenuLis = document.querySelectorAll('#navigation-menu > li');
+        let imageStartsAt = 100 / (window.innerWidth / navigationMenuLis[0].getBoundingClientRect().left);
+        let imageEndsAt = 100 / (window.innerWidth / (navigationMenuLis[navigationMenuLis.length - 1].getBoundingClientRect().right + 10));
+        let backgroundImage = `linear-gradient(45deg, rgba(17, 0, 255, 0.4) 10%, rgba(0, 167, 179, 0.5) ${imageStartsAt}%, rgba(249, 255, 0, 0.95) ${imageStartsAt}%, rgba(235, 110, 110, 0.90) ${imageEndsAt}%, rgba(71, 223, 254, 0.4) ${imageEndsAt}%)`;
         
+        window.addEventListener('resize', () => {
+            imageStartsAt = 100 / (window.innerWidth / navigationMenuLis[0].getBoundingClientRect().left);
+            imageEndsAt = 100 / (window.innerWidth / (navigationMenuLis[navigationMenuLis.length - 1].getBoundingClientRect().right + 10));
+            backgroundImage = `linear-gradient(45deg, rgba(17, 0, 255, 0.4) 10%, rgba(0, 167, 179, 0.5) ${imageStartsAt}%, rgba(249, 255, 0, 0.95) ${imageStartsAt}%, rgba(235, 110, 110, 0.90) ${imageEndsAt}%, rgba(71, 223, 254, 0.4) ${imageEndsAt}%)`;
+            if(getComputedStyle(navigationMenu).position === 'fixed')
+                navigationMenu.style.backgroundImage = backgroundImage;
+        });
+
         const POSITIONS = {
             fixed: 'fixed',
             default: 'default'
@@ -101,8 +114,10 @@ function Header({prop}) {
                     navigation.style.height = `${navigationHeight}px`;
                     navigationMenu.style.position = 'fixed';
                     navigationMenu.style.top = '0px';
-                    navigationMenu.style.backgroundImage = 'linear-gradient(45deg, rgb(75, 105, 255) 0, rgb(179, 233, 255) 45%, rgb(209 91 255 / 80%) 50%, rgb(5 243 255 / 95%) 55%, rgb(5, 243, 255) 69%, rgb(50, 111, 255) 90%)';
+                    navigationMenu.style.backgroundImage = backgroundImage;
                     navigation.style.backgroundImage = 'none';
+                    navigationMenu.style.borderBottomLeftRadius = '20px';
+                    navigationMenu.style.borderBottomRightRadius = '20px';
                     break;
                 case POSITIONS.default:
                     navigation.style.height = '';
