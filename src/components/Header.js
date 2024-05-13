@@ -93,12 +93,18 @@ function Header({prop}) {
         const navigationMenuLis = document.querySelectorAll('#navigation-menu > li');
         let imageStartsAt = 100 / (window.innerWidth / navigationMenuLis[0].getBoundingClientRect().left);
         let imageEndsAt = 100 / (window.innerWidth / (navigationMenuLis[navigationMenuLis.length - 1].getBoundingClientRect().right + 10));
-        let backgroundImage = `linear-gradient(45deg, rgba(17, 0, 255, 0.4) 10%, rgba(0, 167, 179, 0.5) ${imageStartsAt}%, rgba(249, 255, 0, 0.95) ${imageStartsAt}%, rgba(235, 110, 110, 0.90) ${imageEndsAt}%, rgba(71, 223, 254, 0.4) ${imageEndsAt}%)`;
-        
+        let backgroundImage;
+        function getBackgroundImage() { 
+            backgroundImage = window.innerWidth > 500 ? 
+            `linear-gradient(45deg, rgba(17, 0, 255, 0.4) 10%, rgba(0, 167, 179, 0.5) ${imageStartsAt}%, rgba(249, 255, 0, 0.95) ${imageStartsAt}%, rgba(235, 110, 110, 0.90) ${imageEndsAt}%, rgba(71, 223, 254, 0.4) ${imageEndsAt}%)`
+            :
+            'linear-gradient(210deg, rgba(30, 255, 255, 0.85) 5%, rgba(63, 159, 245, 0.9) 40%, rgba(53, 59, 255, 0.85) 95%)';
+        };
+        getBackgroundImage();
         window.addEventListener('resize', () => {
             imageStartsAt = 100 / (window.innerWidth / navigationMenuLis[0].getBoundingClientRect().left);
             imageEndsAt = 100 / (window.innerWidth / (navigationMenuLis[navigationMenuLis.length - 1].getBoundingClientRect().right + 10));
-            backgroundImage = `linear-gradient(45deg, rgba(17, 0, 255, 0.4) 10%, rgba(0, 167, 179, 0.5) ${imageStartsAt}%, rgba(249, 255, 0, 0.95) ${imageStartsAt}%, rgba(235, 110, 110, 0.90) ${imageEndsAt}%, rgba(71, 223, 254, 0.4) ${imageEndsAt}%)`;
+            getBackgroundImage();
             if(getComputedStyle(navigationMenu).position === 'fixed')
                 navigationMenu.style.backgroundImage = backgroundImage;
         });
