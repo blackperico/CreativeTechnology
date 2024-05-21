@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef } from 'react';
 import articlesResponse from '../articles.json';
+import { isTouchScreen } from '../index.js';
 
 function Article({ article }) {
     return(
@@ -29,6 +30,11 @@ function Main() {
     const iconRef = useRef(null);
     const titleRef = useRef(null);
     const containerRef = useRef(null);
+    const containerWrapRef = useRef(null);
+
+    const mousedown = isTouchScreen ? 'touchstart' : 'mousedown';
+    const mouseup = isTouchScreen ? 'touchend' : 'mouseup';
+    const mousemove = isTouchScreen ? 'touchmove' : 'mousemove';
     
     useEffect(() => {
         const scroll = scrollRef.current;
@@ -37,14 +43,33 @@ function Main() {
         const icon = iconRef.current;
         const title = titleRef.current;
         const container = containerRef.current;
+        const containerWrap = containerWrapRef.current;
         const mainLeft = document.getElementById('main-left');
-        const navigation = document.getElementById('navigation'), navigationH = navigation.offsetHeight;
-        const navigationMenu = document.getElementById('navigation-menu'), navigationMenuH = navigationMenu.offsetHeight;
-        
-        const toggleElements = [title, articles, icon, icon.firstChild];
+        const navigation = document.getElementById('navigation'), 
+            navigationH = navigation.offsetHeight;
+        const navigationMenu = document.getElementById('navigation-menu'), 
+            navigationMenuH = navigationMenu.offsetHeight;
+        const toggleElements = [title, title.firstChild, articles, icon, icon.firstChild];
         const fixValue = navigationH - navigationMenuH;
-        const articlesExpandW = 260, articlesExtraPadding = 36, articlesShrinkW = 35;
+
+        function articlesExpandWidth() {
+            const articlesLeft = Number(getComputedStyle(articles).left.replace('px', ''));
+            const articlesPaddingL = Number(getComputedStyle(articles).paddingLeft.replace('px', ''));
+            const articlesPaddingR = Number(getComputedStyle(articles).paddingRight.replace('px', ''));
+            const mainRightW = Number(getComputedStyle(document.querySelector('#slide-container')).width.replace('px', ''));
+            const totalSpace = (articlesLeft * 2) + articlesPaddingL + articlesPaddingR + mainRightW;
+            
+            return window.innerWidth < 630 ? window.innerWidth - totalSpace :  280;
+        };
+        let articlesExpandW = articlesExpandWidth();
+        window.addEventListener('resize', () => {
+            articlesExpandW = articlesExpandWidth();
+        });
+        
+        const articlesPaddingsW = Number(getComputedStyle(articles).paddingLeft.replace('px', '')) + Number(getComputedStyle(articles).paddingRight.replace('px', '')),
+            articlesShrinkW = 35;
         const articlesContainerH = Number(getComputedStyle(container).height.replace('px', ''));
+        
         let isFixed;
 
         function fixIt(action) {
@@ -54,6 +79,7 @@ function Main() {
             articles.style.top = action === 'fix' ? '60px' : '';
             isFixed = action === 'fix' ? true : false;
         };
+
         fixIt(window.scrollY >= fixValue ? 'fix' : 'reset');
 
         window.addEventListener('scroll', () => {
@@ -63,6 +89,15 @@ function Main() {
             if(window.scrollY < fixValue && isFixed === true)
                 fixIt('reset');
         });
+
+        const articlesHeightPhones = {
+            getHeight: function () {
+                return window.innerHeight - articlesPaddingsW - navigationMenuH - Number(getComputedStyle(document.querySelector('#main-container')).marginTop.replace('px', ''));
+            },
+            setHeight: function () {
+                articles.style.height = `${articlesHeightPhones.getHeight()}px`;
+            }
+        };
 
         let currentPhase = null;
         const phases = {
@@ -103,16 +138,28 @@ function Main() {
                     title.style.display = 'block';
                     if(isFixed) {
                         mainLeft.style.transitionTimingFunction = 'cubic-bezier(0.5, 2.0, 0.5, 1)';
-                        mainLeft.style.width = `${articlesExpandW + articlesExtraPadding}px`;
+                        mainLeft.style.width = `${articlesExpandW + Number(getComputedStyle(articles).paddingLeft.replace('px', '')) + Number(getComputedStyle(articles).paddingRight.replace('px', '')) +( Number(getComputedStyle(articles).borderWidth.replace('px', '')) * 2)}px`;
                     }
                 },
                 phase2: () => {
                     phases.applyPhase(phases.expandPhase2.name);
-                    if(articlesContainerH > 700)
-                        articles.style.height = '700px';
-                    else {
-                        articles.style.height = `${articlesContainerH + 25}px`;
-                        scroll.style.display = 'none';
+                    if(window.innerHeight < 730) {
+                        if(articlesContainerH > 700) {
+                            articles.style.height = `${articlesHeightPhones.getHeight()}px`;
+                            window.addEventListener('scroll', articlesHeightPhones.setHeight);
+                        }
+                        if(articlesContainerH < articlesHeightPhones.getHeight()) {
+                            articles.style.height = `${articlesContainerH + title.offsetHeight + Number(getComputedStyle(articles).paddingTop.replace('px', ''))}px`;
+                            scroll.style.display = 'none';
+                        }
+                    } else {
+                        if(articlesContainerH > 700) {
+                            articles.style.height = '700px';
+                        }
+                        else {
+                            articles.style.height = `${articlesContainerH + title.offsetHeight + Number(getComputedStyle(articles).paddingTop.replace('px', ''))}px`;
+                            scroll.style.display = 'none';
+                        }
                     }
                 }
             },
@@ -121,6 +168,7 @@ function Main() {
                     phases.applyPhase(phases.shrinkPhase1.name);
                     articles.style.transitionTimingFunction = 'cubic-bezier(1.0, 2.55, 0, 0.3)';
                     articles.style.height = `${articlesShrinkW}px`;
+                    window.removeEventListener('scroll', articlesHeightPhones.setHeight);
                 },
                 phase2: () => {
                     phases.applyPhase(phases.shrinkPhase2.name);
@@ -129,13 +177,13 @@ function Main() {
                     title.style.display = '';
                     if(isFixed) {
                         mainLeft.style.transitionTimingFunction = 'cubic-bezier(1.0, 2.55, 0, 0.3)';
-                        mainLeft.style.width = `${articlesShrinkW + articlesExtraPadding}px`;
+                        mainLeft.style.width = `${articlesShrinkW + articlesPaddingsW}px`;
                     }
                 }
             }
         };
         
-        articles.addEventListener('click', (e) => {
+        articles.addEventListener(mousedown, (e) => {
             if(toggleElements.includes(e.target)) {
                 switch(currentPhase) {
                     case null: 
@@ -165,8 +213,7 @@ function Main() {
 
         container.addEventListener('mouseenter', () => {
             articles.style.boxShadow = 'none';
-            innerScroll.style.backgroundColor = 'rgb(14, 14, 14)';
-            innerScroll.style.boxShadow = '0 0 3px rgb(25, 25, 25)';
+            innerScroll.style.backgroundColor = 'rgb(255, 255, 255)';
         });
         container.addEventListener('mouseleave', () => {
             articles.style.boxShadow = '';
@@ -180,45 +227,66 @@ function Main() {
             articles.style.boxShadow = '';
         });
     /* SCROLLING FUNCTIONALITY */
-        let isClicked = 0, scrollValue = 0;
-        let articlesH, articlesTitleH;
-        let maxScroll, scrollH = innerScroll.offsetHeight;
-        let pixelEquivalent, padding = 20;
+        const scrollH = innerScroll.offsetHeight;
+        let isClicked = 0, scrollValue = 0, firstTouch, movementArray = [];
+        let articlesH, titleH;
+        let maxScroll;
+        let calcHeights, pixelEquivalent;
+        function recalculateHeights() {
+            return -Number(getComputedStyle(articles).paddingTop.replace('px', '')) - Number(getComputedStyle(containerWrap).top.replace('px', '')) + articlesH;
+        };
         
-        function moveIt(e, wheelScroll) {
-            if(e === null)
+        function moveIt(moveValue, wheelScroll) {
+            if(moveValue === null)
                 isClicked = 1;
             if(isClicked === 1) {
-                scrollValue = wheelScroll === undefined ? scrollValue + e.movementY : scrollValue + wheelScroll;
+                scrollValue = wheelScroll === undefined ? scrollValue + moveValue : scrollValue + wheelScroll;
                 if(-scrollValue >= maxScroll)
                     scrollValue = -maxScroll;
                 if(-scrollValue < 0)
                     scrollValue = 0;
                 container.style.transform = `translateY(${scrollValue * pixelEquivalent}px)`;
-                title.style.transform = `translateY(${scrollValue * pixelEquivalent}px)`;
                 innerScroll.style.transform = `translateY(${(-scrollValue)}px)`;
             }
-            if(e === null)
+            if(moveValue === null)
                 isClicked = 0;
         };
-
-        container.addEventListener('mousedown', () => {
+        
+        container.addEventListener(mousedown, (e) => {
+            if(e.type === 'touchstart') {
+                firstTouch = e.touches[0].screenY;
+                e.preventDefault();
+                innerScroll.style.backgroundColor = 'rgb(255, 255, 255)';
+            }
             isClicked = 1;
             maxScroll = scroll.offsetHeight - scrollH;
             articlesH = articles.offsetHeight;
-            articlesTitleH = title.offsetHeight;
-            pixelEquivalent = (articlesContainerH - articlesH + articlesTitleH + padding) / maxScroll;
+            titleH = title.offsetHeight;
+            calcHeights = recalculateHeights();
+            pixelEquivalent = (articlesContainerH - calcHeights) / maxScroll;
         });
-        window.addEventListener('mousemove', moveIt);
-        window.addEventListener('mouseup', () => {
+        window.addEventListener(mousemove, (e) => {
+            if(e.type === 'touchmove') {
+                movementArray.push(e.touches[0].screenY);
+                if(movementArray.length > 1)
+                    moveIt(movementArray[movementArray.length - 1] - movementArray[movementArray.length - 2]);
+            } else
+            moveIt(e.movementY);
+        });
+        window.addEventListener(mouseup, (e) => {
             isClicked = 0;
+            if(e.type === 'touchend') {
+                movementArray = [];
+                innerScroll.style.backgroundColor = '';
+            }
         });
         articles.addEventListener('wheel', (e) => {
             e.preventDefault();
             maxScroll = scroll.offsetHeight - scrollH;
             articlesH = articles.offsetHeight;
-            articlesTitleH = title.offsetHeight;
-            pixelEquivalent = (articlesContainerH - articlesH + articlesTitleH + padding) / maxScroll;
+            titleH = title.offsetHeight;
+            calcHeights = recalculateHeights();
+            pixelEquivalent = (articlesContainerH - calcHeights) / maxScroll;
             if(e.deltaY == '-100')
                 moveIt(null, 40);
             if(e.deltaY == '100')
@@ -230,12 +298,14 @@ function Main() {
         <div id="articles" ref={articlesRef}>
             <FontAwesomeIcon icon={faFileLines} id="article-icon" ref={iconRef}/>
             <div id="articles-title" ref={titleRef}>
-                Articles
+                <i>Articles</i>
             </div>
-            <div id="articles-container" ref={containerRef}>
-                {articlesResponse.Articles.map((article, index) => {
-                    return <Article article={article} key={index} />;
-                })}
+            <div id="articles-container-wrap" ref={containerWrapRef}>
+                <div id="articles-container" ref={containerRef}>
+                    {articlesResponse.Articles.map((article, index) => {
+                        return <Article article={article} key={index} />;
+                    })}
+                </div>
             </div>
             <div id="scroll-path" ref={scrollRef}>
                 <div id="articles-scroll" ref={innerScrollRef}>
