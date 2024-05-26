@@ -45,12 +45,12 @@ function Main() {
         const container = containerRef.current;
         const containerWrap = containerWrapRef.current;
         const mainLeft = document.getElementById('main-left');
-        const navigation = document.getElementById('navigation'), 
-            navigationH = navigation.offsetHeight;
+        const navigation = document.getElementById('navigation');
+        let navigationH = navigation.offsetHeight;
         const navigationMenu = document.getElementById('navigation-menu'), 
             navigationMenuH = navigationMenu.offsetHeight;
         const toggleElements = [title, title.firstChild, articles, icon, icon.firstChild];
-        const fixValue = navigationH - navigationMenuH;
+        let fixValue = navigationH - navigationMenuH;
 
         function articlesExpandWidth() {
             const articlesLeft = Number(getComputedStyle(articles).left.replace('px', ''));
@@ -63,6 +63,8 @@ function Main() {
         };
         let articlesExpandW = articlesExpandWidth();
         window.addEventListener('resize', () => {
+            navigationH = navigation.offsetHeight;
+            fixValue = navigationH - navigationMenuH;
             articlesExpandW = articlesExpandWidth();
         });
         
