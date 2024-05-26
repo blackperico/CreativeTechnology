@@ -13,6 +13,12 @@ import { useState } from 'react';
 import accountsResponse from './accounts.json';
 import reportWebVitals from './reportWebVitals';
 
+function isTouchDevice() {
+  return 'ontouchstart' in window;
+};
+const isTouchScreen = isTouchDevice();
+export { isTouchScreen };
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 function App() {
