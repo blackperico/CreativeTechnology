@@ -2,11 +2,7 @@ import { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import '../styles/FunkyBox.css';
-
-const buttonPress = window.screen.width > 640 ? 'mousedown' : 'touchend';
-const buttonRelease = window.screen.width > 640 ? 'mouseup' : 'touchstart';
-const buttonMove = window.screen.width > 640 ? 'mousemove' : 'touchmove';
-const buttonClick = window.screen.width > 640 ? 'click' : 'touch';
+import { isTouchScreen } from '../index';
 
 const scrollIndicatorValues = {
     left: 'left',
@@ -39,11 +35,11 @@ function iconDisplay(target, action) {
 function FunkyContainer({ products, overscrollColor, mainColor }) {
     const itemContainerRef = useRef(null);
 
+    const buttonPress = isTouchScreen ? 'touchstart' : 'mousedown';
+    const buttonRelease = isTouchScreen ? 'touchend' : 'mouseup';
+    const buttonMove = isTouchScreen ? 'touchmove' : 'mousemove';
+
     useEffect(() => {
-        /* make header interactive,
-        expands to 100% height;
-        place text content;
-        change FunkyItem to FunkyContent and add FunkyItem as separate component function; */
         const itemContainer = itemContainerRef.current;
         const funkyItems = Array.from(itemContainer.children);
 
@@ -82,7 +78,7 @@ function FunkyContainer({ products, overscrollColor, mainColor }) {
             const mainImage = mainImageRef.current;
             const mainImageSrc = mainImage.getAttribute('src');
 
-            closeIcon.addEventListener(buttonClick, () => {
+            closeIcon.addEventListener(buttonPress, () => {
                 mainImage.src = mainImageSrc;
                 iconDisplay(closeIcon, 'hide');
             });
@@ -138,8 +134,9 @@ function FunkyContainer({ products, overscrollColor, mainColor }) {
 
             function overscrollDrag(target, value, event) {
                 if(event) {
+                    const movementY = event instanceof TouchEvent ? movementArrayY[movementArrayY.length - 1] - movementArrayY[movementArrayY.length - 2] : event.movementY;
                     /* Vertical movement */
-                    dragVertical = dragVertical + event.movementY;
+                    dragVertical = dragVertical + movementY;
                     if(dragVertical > 0 && dragVertical <= 25) {
                         if(target === overscrollLeft)
                             target.style.borderTopRightRadius = `${dragVertical}px`;
@@ -166,7 +163,14 @@ function FunkyContainer({ products, overscrollColor, mainColor }) {
 
             };
             
+            let movementArrayX = [], movementArrayY = [];
             function dragAndIndicator(e) {
+                if(e instanceof TouchEvent) {
+                    movementArrayX.push(e.touches[0].clientX);
+                    movementArrayY.push(e.touches[0].clientY);
+                }
+                const movementX = e instanceof TouchEvent ? movementArrayX[movementArrayX.length - 1] - movementArrayX[movementArrayX.length - 2] : e.movementX;
+                
                 picsLeft = funkyPics.getBoundingClientRect().left;
                 picsRight = funkyPics.getBoundingClientRect().right;
                 containerLeft = picsContainer.getBoundingClientRect().left;
@@ -184,16 +188,16 @@ function FunkyContainer({ products, overscrollColor, mainColor }) {
                 if(drag > 0) {
                     switch(true) {
                         case drag < 10:
-                            drag = drag + (e.movementX / 5);
+                            drag = drag + (movementX / 5);
                             break;
                         case drag < 15:
-                            drag = drag + (e.movementX / 15);
+                            drag = drag + (movementX / 15);
                             break;
                         case drag < 20:
-                            drag = drag + (e.movementX / 20);
+                            drag = drag + (movementX / 20);
                             break;
                         default:
-                            drag = drag + (e.movementX / 25);
+                            drag = drag + (movementX / 25);
                             break;
                     }    
 
@@ -202,16 +206,16 @@ function FunkyContainer({ products, overscrollColor, mainColor }) {
                 if(drag < -widthDiff) {
                     switch(true) {
                         case drag > (-widthDiff - 10):
-                            drag = drag + (e.movementX / 5);
+                            drag = drag + (movementX / 5);
                             break;
                         case drag > (-widthDiff - 15):
-                            drag = drag + (e.movementX / 7.5);
+                            drag = drag + (movementX / 7.5);
                             break;
                         case drag > (-widthDiff - 20):
-                            drag = drag + (e.movementX / 10);
+                            drag = drag + (movementX / 10);
                             break;
                         default:
-                            drag = drag + (e.movementX / 15);
+                            drag = drag + (movementX / 15);
                             break;
                     }
 
@@ -220,18 +224,27 @@ function FunkyContainer({ products, overscrollColor, mainColor }) {
                 }
 
                 if(drag <= 0 && drag >= -widthDiff) {
-                    drag = drag + e.movementX / 1.5;
+                    drag = drag + movementX / 1.5;
                     funkyPics.style.transform = `translateX(${drag}px)`;
                 }
             };
 
             if(funkyPics.offsetWidth > picsContainer.offsetWidth) {
-                funkyPics.addEventListener(buttonPress, () => {
+                funkyPics.addEventListener(buttonPress, (e) => {
+                    e.preventDefault();
+                    if(e instanceof TouchEvent) {
+                        movementArrayX.push(e.touches[0].clientX);
+                        movementArrayY.push(e.touches[0].clientY);
+                    }
                     overscrollLeft.style.transition = '';
                     overscrollRight.style.transition = '';
                     window.addEventListener(buttonMove, dragAndIndicator);
                 });
-                window.addEventListener(buttonRelease, () => {
+                window.addEventListener(buttonRelease, (e) => {
+                    if(e instanceof TouchEvent) {
+                        movementArrayX = [];
+                        movementArrayY = [];
+                    }
                     overscrollValue = 0;
                     dragVertical = 0;
     
@@ -259,7 +272,7 @@ function FunkyContainer({ products, overscrollColor, mainColor }) {
                 let clickTime;
 
                 funkyPic.addEventListener(buttonPress, (e) => {
-                    clickTime = e.timeStamp
+                    clickTime = e.timeStamp;
                 });
                 funkyPic.addEventListener(buttonRelease, (e) => {
                     if(e.timeStamp - clickTime < 300) {
