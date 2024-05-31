@@ -1,7 +1,7 @@
 {
   "name": "CreativeTechnology",
   "version": "0.1.0",
-  "homepage": "https://CreativeTechnology.github.io/react-gh-pages",
+  "homepage": "https://CreativeTechnology.github.io/CreativeTechnology",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
