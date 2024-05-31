@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import '../styles/AccountOperations.css';
 import accountsResponse from '../accounts.json';
 import { Link } from "react-router-dom";
@@ -9,7 +9,6 @@ function Login({prop}) {
     const login = prop[0];
     const setLogin = prop[1];
     const homeUrl = 'http://localhost:3000';
-    let account;
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -17,11 +16,41 @@ function Login({prop}) {
     const loadingIconRef = useRef(null);
     const innerTextRef = useRef(null);
     const buttonRef = useRef(null);
+
+    useEffect(() => {
+        alert('Usernames: "aco", "cava", "funky"; Passwords: "admin"');
+        const innerText = innerTextRef.current;
+        const button = buttonRef.current;
+
+        if(errors instanceof Array) {
+            if(errors.length === 0) {
+                const account = accountsResponse.find((acc) => {
+                    if(acc.username === username && acc.password === password)
+                        return acc;
+                    return null;
+                });
+
+                if(account) {
+                    sessionStorage.setItem('profile', account.id);
+                    setTimeout(() => {
+                        setLogin(true);
+                        window.location.href = homeUrl;
+                    }, 3500);
+                }
+                
+                innerText.innerHTML = 'Logged in';
+                button.style.backgroundColor = 'rgb(0 255 255)';
+                button.style.color = '#000';
+
+            } else {
+                innerText.innerHTML = 'Try again';
+                button.style.backgroundColor = 'rgb(255, 0, 0)';
+            }
+            
+            innerText.style.display = 'block';
+        }
+    }, [errors]);
    
-/* LOGGING IN ANIMATION IF NO ERRORS PRESENT WITH SETTIMEOUT
-CHANGE INDEX.JS LOGGEDIN STATE (HAS TO HAVE INFO ABOUT WHICH ACCOUNT IS IN USE)
-CHANGE NAV MENU TO LOG OUT AND DISPLAY PROFILE IMG NEXT TO IT
-PROFILE PIC DROPDOWN MENU */
     function renderErrorMessage(inputField) {
         if(errors === null)
             return null;
@@ -31,16 +60,7 @@ PROFILE PIC DROPDOWN MENU */
                     return <p className="error-message">{error.message}</p>
             });
     };
-    function changeLogin() {
-        if(errors === null) {
-            setLogin(!login);
-            sessionStorage.setItem('profile', account.id);
-            setTimeout(() => {
-                window.location.href = homeUrl;
-            }, 0)
-        }
-    };
-/* prilikom klika F-ja validateAccount postavlja ikonicu load, vraca return nakon 1s, zakriva ikonicu i ispisuje Logged in ili Default vrednost */
+
     function validateAccount() {
         const innerText = innerTextRef.current;
         const loadingIcon = loadingIconRef.current;
@@ -48,7 +68,7 @@ PROFILE PIC DROPDOWN MENU */
         innerText.style.display = 'none';
         loadingIcon.style.display = "block";
         
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             setTimeout(() => {
                 let returnErrors = [];
                 const credentials = {
@@ -82,45 +102,25 @@ PROFILE PIC DROPDOWN MENU */
                     if(!credentials[credential].value) {
                         returnErrors.push(credentials[credential]);
                     }
-        
                 resolve(returnErrors);
             }, 5000);
-            /*setTimeout(() => {
-                changeLogin();
-            }, 6000);*/
         });
     };
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const innerText = innerTextRef.current;
         const loadingIcon = loadingIconRef.current;
-        const button = buttonRef.current;
 
         loadingIcon.id = 'loading';
 
         try {
             const errors = await validateAccount();
+
             setErrors(errors);
-            if(errors.length === 0) {
-                account = accountsResponse.find((acc) => {
-                    if(acc.username === username && acc.password === password)
-                        return acc;
-                });
-                setTimeout(changeLogin, 1000);
-            }
-            
+
             loadingIcon.style.display = 'none';
-            if(errors.length > 0) {
-                innerText.innerHTML = 'Try again';
-                button.style.backgroundColor = '#ff2a2a';
-            }
-            else {
-                innerText.innerHTML = 'Logged in';
-                button.style.backgroundColor = '#34ff34';
-            }
-            innerText.style.display = 'block';
-        } catch(error) {
+        } 
+        catch(error) {
             alert('Error trying to validate account: ' + error);
         }
     };
