@@ -38,7 +38,7 @@ function App() {
   };
 
   return(
-    <BrowserRouter>
+    <BrowserRouter basename="/CreativeTechnology">
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
