@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 
+alert('Usernames: "aco", "cava", "funky"; Passwords: "admin"');
+
 function Login({prop}) {
     const login = prop[0];
     const setLogin = prop[1];
-    const homeUrl = 'http://localhost:3000';
+    const homeUrl = 'https://blackperico.github.io/CreativeTechnology/';
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -18,7 +20,6 @@ function Login({prop}) {
     const buttonRef = useRef(null);
 
     useEffect(() => {
-        alert('Usernames: "aco", "cava", "funky"; Passwords: "admin"');
         const innerText = innerTextRef.current;
         const button = buttonRef.current;
 
