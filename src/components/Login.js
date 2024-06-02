@@ -10,7 +10,7 @@ alert('Usernames: "aco", "cava", "funky"; Passwords: "admin"');
 function Login({prop}) {
     const login = prop[0];
     const setLogin = prop[1];
-    const homeUrl = 'https://blackperico.github.io/CreativeTechnology/';
+    const homeUrl = '/CreativeTechnology/';
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
