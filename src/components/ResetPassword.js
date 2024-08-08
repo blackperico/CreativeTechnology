@@ -1,6 +1,7 @@
 import '../styles/AccountOperations.css';
 import accountsResponse from '../accounts.json';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 function ResetPassword() {
     const [email, setEmail] = useState('');
@@ -36,7 +37,12 @@ function ResetPassword() {
 
     return(
         <div id="container">
+            <Helmet>
+                <title>Reset password | CreativeTechnology</title>
+            </Helmet>
+
             <h3>Reset password</h3>
+
             <form onSubmit={handleSubmit}>
                 <label htmlFor='email'>Enter your email: </label>
                 <input id='email' className='input-box' type='text' onChange={(e) => setEmail(e.target.value)}></input>

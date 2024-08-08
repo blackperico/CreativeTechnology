@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import "../styles/AccountOperations.css";
 import accountsResponse from '../accounts.json';
+import { Helmet } from "react-helmet";
 
 function CreateAccount() {
     const [email, setEmail] = useState('');
@@ -133,6 +134,10 @@ function CreateAccount() {
 
     return (
         <div id="container">
+            <Helmet>
+                <title>Create Account | CreativeTechnology</title>
+            </Helmet>
+
             <h3>Create account</h3>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email-input">Email:</label>

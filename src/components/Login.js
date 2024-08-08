@@ -4,6 +4,7 @@ import accountsResponse from '../accounts.json';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import { Helmet } from "react-helmet";
 
 alert('Usernames: "aco", "cava", "funky"; Passwords: "admin"');
 
@@ -128,6 +129,10 @@ function Login({prop}) {
 
     return(
         <div id="container">
+            <Helmet>
+                <title>Log in | CreativeTechnology</title>
+            </Helmet>
+            
             <h3>Log into account</h3>
 
             <form onSubmit={handleSubmit}>
