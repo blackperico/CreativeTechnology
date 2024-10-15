@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/CreativeTechnology/static/css/main.d624323a.css",
-    "main.js": "/CreativeTechnology/static/js/main.5d0317d5.js",
+    "main.css": "/CreativeTechnology/static/css/main.bd1f4c26.css",
+    "main.js": "/CreativeTechnology/static/js/main.ce6b2f29.js",
     "static/js/453.7e4e8a1d.chunk.js": "/CreativeTechnology/static/js/453.7e4e8a1d.chunk.js",
     "static/media/eldenring1.png": "/CreativeTechnology/static/media/eldenring1.e74636429444325cd18c.png",
     "static/media/eldenring2.png": "/CreativeTechnology/static/media/eldenring2.0fb03d1e851a7f8f5b39.png",
@@ -9,8 +9,16 @@
     "static/media/eldenring0.png": "/CreativeTechnology/static/media/eldenring0.51a3ff178201f002236b.png",
     "static/media/dog.jpg": "/CreativeTechnology/static/media/dog.a829b1d2870525c52c82.jpg",
     "static/media/parrot.jpg": "/CreativeTechnology/static/media/parrot.e955902a1d9870894192.jpg",
+    "static/media/borderlands3.webp": "/CreativeTechnology/static/media/borderlands3.68ece5f0e34a9feb5403.webp",
+    "static/media/monsterhunter.webp": "/CreativeTechnology/static/media/monsterhunter.54191c5549fc99e50adf.webp",
+    "static/media/darksouls3.webp": "/CreativeTechnology/static/media/darksouls3.e64ba182f0304baa134c.webp",
     "static/media/logo.jpg": "/CreativeTechnology/static/media/logo.45d719d5f7e1ea7db456.jpg",
+    "static/media/diablo4.webp": "/CreativeTechnology/static/media/diablo4.2ee1a3eaa3459f3d8e32.webp",
     "static/media/cat.jpg": "/CreativeTechnology/static/media/cat.e1581eb3e0ad4f2dc193.jpg",
+    "static/media/news.webp": "/CreativeTechnology/static/media/news.a84a1a3becfe41273f37.webp",
+    "static/media/southpark.webp": "/CreativeTechnology/static/media/southpark.c10eee91391b452b419d.webp",
+    "static/media/bladeandsorcery.webp": "/CreativeTechnology/static/media/bladeandsorcery.40bad7d91db5b68d2432.webp",
+    "static/media/intotheradius.webp": "/CreativeTechnology/static/media/intotheradius.a9a5bc587a615d50978d.webp",
     "static/media/tq5.jpg": "/CreativeTechnology/static/media/tq5.2d5f9fd2dbe6e6e13681.jpg",
     "static/media/tq4.jpg": "/CreativeTechnology/static/media/tq4.64a6488b7ed88cc03547.jpg",
     "static/media/tq0.jpg": "/CreativeTechnology/static/media/tq0.8482928b4e7f4334bc49.jpg",
@@ -18,18 +26,20 @@
     "static/media/stalker2.jpg": "/CreativeTechnology/static/media/stalker2.d7c2e13c2ef93c079c80.jpg",
     "static/media/tq3.jpg": "/CreativeTechnology/static/media/tq3.f151a2003ab7e876012b.jpg",
     "static/media/got3.jpg": "/CreativeTechnology/static/media/got3.2e192f75aa4fda693059.jpg",
+    "static/media/background.webp": "/CreativeTechnology/static/media/background.6952ade2b356ad68b8ec.webp",
     "static/media/wt0.jpg": "/CreativeTechnology/static/media/wt0.c014b0cad56aa1467a30.jpg",
     "static/media/got0.jpg": "/CreativeTechnology/static/media/got0.3d0f01550f6ff4abcfbc.jpg",
     "static/media/wt1.jpg": "/CreativeTechnology/static/media/wt1.35ee8469cacdeea26513.jpg",
     "static/media/titanquest.jpg": "/CreativeTechnology/static/media/titanquest.cd9a856a365d2dccbe8e.jpg",
     "static/media/wt5.jpg": "/CreativeTechnology/static/media/wt5.22d04b4dc0ad9e33caf5.jpg",
+    "static/media/changelog.webp": "/CreativeTechnology/static/media/changelog.e5d57c164e892bc40439.webp",
     "index.html": "/CreativeTechnology/index.html",
-    "main.d624323a.css.map": "/CreativeTechnology/static/css/main.d624323a.css.map",
-    "main.5d0317d5.js.map": "/CreativeTechnology/static/js/main.5d0317d5.js.map",
+    "main.bd1f4c26.css.map": "/CreativeTechnology/static/css/main.bd1f4c26.css.map",
+    "main.ce6b2f29.js.map": "/CreativeTechnology/static/js/main.ce6b2f29.js.map",
     "453.7e4e8a1d.chunk.js.map": "/CreativeTechnology/static/js/453.7e4e8a1d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d624323a.css",
-    "static/js/main.5d0317d5.js"
+    "static/css/main.bd1f4c26.css",
+    "static/js/main.ce6b2f29.js"
   ]
 }
