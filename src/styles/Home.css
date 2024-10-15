@@ -30,32 +30,157 @@ body {height: fit-content;}
     width: 50px;
     grid-column: 3;}
 
-#slide-container {width: 50px;
-    max-height: 700px;
+#slide-container {display: flex;
+    max-height: 650px;
+    width: 700px;
+    transform: translateX(650px);
+    box-sizing: border-box;
     position: fixed;
     right: 0;
-    z-index: 100;
-    overflow: hidden;
-    transition: width 500ms ease-in, box-shadow 500ms;
-    background-color: rgb(230, 230, 230);}
-#content-box {position: absolute;
+    z-index: 10;
+    transition: transform 500ms cubic-bezier(0.42, 0, 1, 1), box-shadow 500ms cubic-bezier(0.42, 0, 1, 1);}
+#slide-container.open {transition: transform 900ms cubic-bezier(0.40, 1.30, 0.80, 1), box-shadow 300ms cubic-bezier(0.42, 0, 1, 1);
+    transform: translateX(0px);}
+#slide-container.hover-opened {box-shadow: 0 0 10px #000;}
+#slide-container.hover-closed {transition: transform 500ms;
+    transform: translateX(643px);
+    box-shadow: 0 0 10px #000;}
+#slide-container.touch-move {transition: transform 300ms ease-out;}
+#slide-background {position: absolute;
     top: 0;
-    left: 0;}
-#content-box2 {position: absolute;
-    bottom: 0;
-    left: 0;}
-#pop-button {position: absolute;
-    top: calc(50% - 30px);
-    left: 3px;
-    height: 34px;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: radial-gradient(#115af8 20px, #119af8 100px, #00fffa);
+    filter: opacity(50%);}
+#slide-button-container {display: flex;
+    height: 100%;
     width: 34px;
+    margin: auto 0;
+    flex-wrap: wrap;
+    align-content: center;
     border-radius: 20px;
     transition: box-shadow 400ms ease-in-out;}
-#pop-button:hover {cursor: pointer;}
-#button-icon {transition: 500ms;}
+#slide-button-container:hover {cursor: pointer;}
+#button-icon {z-index: 10;
+    font-size: 2rem;
+    transition: 800ms;}
+#button-icon.open {transform: rotate(180deg);}
 #button-icon path {transition: 500ms;}
+#button-icon path.hover {filter: drop-shadow(0 0 50px #000);}
+#slide-wrap {display: flex;
+    min-height: fit-content;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    z-index: 10;}
+#slide-wrap.tiny {position: relative;}
+#slide-menu {display: flex;
+    width: 100%;
+    height: 40px;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: row;
+    padding: 10px;
+    box-sizing: border-box;
+    list-style-type: none;}
+#slide-menu-item:not(:first-of-type) {margin-left: 10px;}
+#slide-menu-item {background-image: linear-gradient(#000, #000);
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    background-position: 100% 100%;
+    user-select: none;
+    cursor: pointer;}
+#slide-content {display: grid;
+    width: 100%;
+    min-height: 0px;
+    height: calc(100% - 40px);
+    padding: 10px 10px 10px 0;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    row-gap: 5px;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;}
+#slide-content.tiny {display: flex;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: fit-content;
+    flex-direction: row;
+    align-items: center;}
+#content-item {display: flex;
+    flex-direction: column;
+    width: 130px;
+    height: 215px;
+    min-width: 130px;
+    max-width: 250px;
+    min-height: 215px;
+    max-height: 320px;
+    margin-left: 10px;
+    user-select: none;}
+#content-item:nth-of-type(1) {grid-row: 1 / 3;
+    grid-column: 1 / 3;
+    height: 100%;
+    width: 300px;
+    margin: auto 0;}
+#content-item.tiny {height: 100%;
+    max-height: 350px;
+    min-width: 250px;
+    margin: 0 0 0 15px;}
+#content-item-img {width: 100%;
+    height: 70%;
+    object-fit: cover;
+    object-position: 0 0;}
+#content-info-wrap {display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 30%;
+    min-height: 78px;
+    font-family: "Motiva Sans", Sans-serif;
+    font-weight: 300;
+    background-image: url("../../public/background.webp");
+    background-size: 100% 100%;
+    background-clip: content-box;
+    background-repeat: no-repeat;}
+#offer-type {height: 20px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 15px;
+    padding-left: 5px;
+    letter-spacing: 0px;
+    color: #fff;}
+#offer-time {font-size: 14px;
+    padding-left: 5px;
+    color: #d1d1d1;}
+#offer-discount-wrap {display: flex;
+    flex-direction: row;
+    height: fit-content;
+    width: fit-content;
+    margin-left: 3px;
+    background-color: #bdba00;}
+#discount-percentage {display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    padding: 0 5px;
+    font-size: 22px;
+    font-weight: 500;
+    color: #fffb00;}
+#discount-prices {display: flex;
+    flex-direction: column;
+    padding: 2px 10px;
+    background-color: #344654;}
+#discount-original-price {display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    text-decoration: line-through;
+    color: #818181;}
+#discount-final-price {font-weight: 500;
+    color: #fffb00;}
 
-#articles {position: relative; z-index: 5;
+#articles {position: relative;
     width: 35px;
     height: 35px;
     max-height: 700px;
@@ -79,7 +204,7 @@ body {height: fit-content;}
     bottom: 0;
     left: 0;
     overflow: hidden;
-    z-index: 0;}
+    z-index: 10;}
 #articles-container {display: block; 
     height: fit-content;
     width: 100%;
@@ -176,17 +301,13 @@ body {height: fit-content;}
         z-index: 10;}
     #main-container > .funky-box {width: 90%;}
 }
-@media screen and (max-width: 1024px) {
-    #slide-container {width: 25px;}
-    #pop-button {width: 20px;
-        left: 0;}
-}
 @media screen and (max-width: 768px) {
     #main-container {gap: 0;}
     #main-middle {border-radius: 0;}
     #main-middle > .funky-box {width: 90%;}
-    #slide-container {width: 10px;}
-    #pop-button {height: 28px;}
+    #slide-container {width: 100%;
+        transform: translateX(97%);}
+    #slide-container.hover-closed {transform: translateX(95%);}
 }
 @media screen and (max-width: 629px) {
     .article-box {max-width: 340px;}

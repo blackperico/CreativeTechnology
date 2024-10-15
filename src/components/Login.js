@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import { Helmet } from "react-helmet";
-
-alert('Usernames: "aco", "cava", "funky"; Passwords: "admin"');
+// replace alert with manual messsage box
+//alert('Usernames: "aco", "cava", "funky"; Passwords: "admin"');
 
 function Login({prop}) {
     const login = prop[0];

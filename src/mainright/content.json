@@ -1,0 +1,119 @@
+[
+    {
+      "news": [
+        {
+          "img": "news.webp",
+          "title": "Major Update Brings New Features and Optimizations"
+        },
+        {
+          "img": "news.webp",
+          "title": "Community Spotlight: Top Creations of the Month"
+        },
+        {
+          "img": "news.webp",
+          "title": "Game Event: Limited-Time Challenges and Rewards"
+        },
+        {
+          "img": "news.webp",
+          "title": "Patch 1.2.3 Released – Here’s What’s New!"
+        },
+        {
+          "img": "news.webp",
+          "title": "Development Roadmap Revealed for Upcoming Updates"
+        },
+        {
+          "img": "news.webp",
+          "title": "Server Maintenance Scheduled for Next Week"
+        },
+        {
+          "img": "news.webp",
+          "title": "Tips & Tricks for Mastering the Latest Game Mode"
+        }
+      ]
+    },
+    {
+      "special offers": [
+        {
+          "offer-type": "Weekend deal",
+          "time-until": "2024-11-01T23:59:00Z",
+          "price": "24.99",
+          "discount-percentage": "50",
+          "img": "southpark.webp"
+        },
+        {
+          "offer-type": "Publisher Sale",
+          "time-until": "2024-11-01T23:59:00Z",
+          "price": "29.99",
+          "discount-percentage": "75",
+          "img": "darksouls3.webp"
+        },
+        {
+          "offer-type": "CreativeTechnology discount",
+          "time-until": "2024-11-01T23:59:00Z",
+          "price": "69.99",
+          "discount-percentage": "25",
+          "img": "diablo4.webp"
+        },
+        {
+          "offer-type": "Publisher Sale",
+          "time-until": "2024-11-01T23:59:00Z",
+          "price": "49.99",
+          "discount-percentage": "80",
+          "img": "monsterhunter.webp"
+        },
+        {
+          "offer-type": "CreativeTechnology discount",
+          "time-until": "2024-11-01T23:59:00Z",
+          "price": "59.99",
+          "discount-percentage": "75",
+          "img": "borderlands3.webp"
+        },
+        {
+          "offer-type": "Weekend deal",
+          "time-until": "2024-11-01T23:59:00Z",
+          "price": "29.99",
+          "discount-percentage": "25",
+          "img": "intotheradius.webp"
+        },
+        {
+          "offer-type": "Weekend deal",
+          "time-until": "2024-11-01T23:59:00Z",
+          "price": "34.99",
+          "discount-percentage": "50",
+          "img": "bladeandsorcery.webp"
+        }
+      ]
+    },
+    {
+      "changelog": [
+        {
+          "img": "changelog.webp",
+          "title": "Version 1.4.0: New Features and Fixes"
+        },
+        {
+          "img": "changelog.webp",
+          "title": "Patch 1.3.2: Bug Fixes and UI Improvements"
+        },
+        {
+          "img": "changelog.webp",
+          "title": "Hotfix 1.3.1: Critical Issue Resolved"
+        },
+        {
+          "img": "changelog.webp",
+          "title": "Version 1.3.0: Major Rework and New Content"
+        },
+        {
+          "img": "changelog.webp",
+          "title": "Patch 1.2.5: Stability Improvements and Minor Tweaks"
+        },
+        {
+          "img": "changelog.webp",
+          "title": "Version 1.2.0: Overhaul of the Inventory System"
+        },
+        {
+          "img": "changelog.webp",
+          "title": "Patch 1.1.8: Minor Fixes and Optimization"
+        }
+      ]
+    }
+  ]
