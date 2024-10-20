@@ -56,12 +56,12 @@ function Main() {
             const articlesLeft = Number(getComputedStyle(articles).left.replace('px', ''));
             const articlesPaddingL = Number(getComputedStyle(articles).paddingLeft.replace('px', ''));
             const articlesPaddingR = Number(getComputedStyle(articles).paddingRight.replace('px', ''));
-            const mainRightW = Number(getComputedStyle(document.querySelector('#slide-container')).width.replace('px', ''));
-            const totalSpace = (articlesLeft * 2) + articlesPaddingL + articlesPaddingR + mainRightW;
+            const totalSpace = (articlesLeft * 2) + articlesPaddingL + articlesPaddingR;
             
             return window.innerWidth < 630 ? window.innerWidth - totalSpace :  280;
         };
         let articlesExpandW = articlesExpandWidth();
+        console.log(articlesExpandW);
         window.addEventListener('resize', () => {
             navigationH = navigation.offsetHeight;
             fixValue = navigationH - navigationMenuH;
