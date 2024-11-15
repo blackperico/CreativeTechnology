@@ -277,7 +277,7 @@ function MainRight() {
             window.removeEventListener('resize', checkHeight);
             window.addEventListener('scroll', checkHeight);
         }
-    }, [contentState]);
+    }, [contentState, displayState]);
     
     return(
         <div id="main-right" ref={mainRightRef}>

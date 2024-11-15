@@ -51,7 +51,7 @@ body {height: fit-content;}
     left: 0;
     height: 100%;
     width: 100%;
-    background-image: radial-gradient(#115af8 20px, #119af8 100px, #00fffa);
+    background-color: #00adff;
     filter: opacity(50%);}
 #slide-button-container {display: flex;
     height: 100%;
