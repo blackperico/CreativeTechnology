@@ -254,6 +254,82 @@ function MainRight() {
     }, [displayState]);
 
     useEffect(() => {
+        const slideContent = slideContentRef.current,
+            slideWrap = slideWrapRef.current;
+        let maxScrollX = slideContent.offsetWidth - slideWrap.offsetWidth;
+        let scrollStartX = 0, 
+            currentTranslateX = 0;
+
+        function handleScrollStart(event) {
+            event.preventDefault();
+            switch(event.constructor) {
+                case WheelEvent:
+                    if(slideContent.offsetWidth > slideWrap.offsetWidth) {
+                        let newTranslateX = currentTranslateX - event.deltaY * 0.5;
+                        
+                        newTranslateX = Math.max(-maxScrollX, Math.min(0, newTranslateX));
+                        slideContent.style.transform = `translateX(${newTranslateX}px)`;
+                        currentTranslateX = newTranslateX;
+                    }
+                    break;
+                case MouseEvent:
+                    if(slideContent.offsetWidth > slideWrap.offsetWidth) {
+                        scrollStartX = event.clientX;
+                        slideContent.addEventListener('mousemove', handleScrollMove);
+                    }
+                    break;
+                case TouchEvent:
+                    if(slideContent.offsetWidth > slideWrap.offsetWidth) {
+                        scrollStartX = event.touches[0].screenX;
+                        slideContent.addEventListener('touchmove', handleScrollMove);
+                    }
+                    break;
+            }
+        };
+        function handleScrollMove(event) {
+            switch(event.constructor) {
+                case MouseEvent: {
+                        const scrollCurrentX = event.clientX;
+                        const scrollDiffX = scrollCurrentX - scrollStartX;
+                        let newTranslateX = currentTranslateX + scrollDiffX;
+
+                        newTranslateX = Math.max(-maxScrollX, Math.min(0, newTranslateX));
+                        slideContent.style.transform = `translateX(${newTranslateX}px)`;
+                        scrollStartX = scrollCurrentX;
+                        currentTranslateX = newTranslateX;
+                    }
+                    break;
+                case TouchEvent: {
+                        const scrollCurrentX = event.touches[0].screenX;
+                        const scrollDiffX = scrollCurrentX - scrollStartX;
+                        let newTranslateX = currentTranslateX + scrollDiffX;
+
+                        newTranslateX = Math.max(-maxScrollX, Math.min(0, newTranslateX));
+                        slideContent.style.transform = `translateX(${newTranslateX}px)`;
+                        scrollStartX = scrollCurrentX;
+                        currentTranslateX = newTranslateX;
+                    }
+                    break;
+            }
+        };
+        function handleScrollStop(event) {
+            switch(event.constructor) {
+                case MouseEvent:
+                    slideContent.removeEventListener('mousemove', handleScrollMove);
+                    break;
+                case TouchEvent:
+                    slideContent.removeEventListener('touchmove', handleScrollMove);
+                    break;
+            }
+        };
+        
+        slideContent.addEventListener('touchstart', handleScrollStart);
+        slideContent.addEventListener('mousedown', handleScrollStart);
+        slideContent.addEventListener('mousewheel', handleScrollStart);
+
+        window.addEventListener('touchend', handleScrollStop);
+        window.addEventListener('mouseup', handleScrollStop);
+
         function checkHeight() {
             const slideContainer = slideContainerRef.current;
             const slideWrap = slideWrapRef.current;
@@ -267,6 +343,8 @@ function MainRight() {
             contentItems.forEach((element) => {
                 element.classList.toggle('tiny', isTiny);
             });
+
+            maxScrollX = slideContent.offsetWidth - slideWrap.offsetWidth;
         };
         checkHeight();
 
@@ -275,7 +353,13 @@ function MainRight() {
 
         return () => {
             window.removeEventListener('resize', checkHeight);
-            window.addEventListener('scroll', checkHeight);
+            window.removeEventListener('scroll', checkHeight);
+
+            slideContent.removeEventListener('touchstart', handleScrollStart);
+            slideContent.removeEventListener('mousedown', handleScrollStart);
+            slideContent.removeEventListener('mousewheel', handleScrollStart);
+            window.removeEventListener('touchend', handleScrollStop);
+            window.removeEventListener('mouseup', handleScrollStop);
         }
     }, [contentState, displayState]);
     
