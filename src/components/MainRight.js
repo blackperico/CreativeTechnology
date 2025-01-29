@@ -12,6 +12,8 @@ function MainRight() {
     const slideWrapRef = useRef(null);
     const slideContentRef = useRef(null);
     const slideMenuRef = useRef(null);
+    const scrollIndicatorLeftRef = useRef(null);
+    const scrollIndicatorRightRef = useRef(null);
 
     const DISPLAYSTATES = {
         open: 'open',
@@ -254,11 +256,24 @@ function MainRight() {
     }, [displayState]);
 
     useEffect(() => {
-        const slideContent = slideContentRef.current,
-            slideWrap = slideWrapRef.current;
+        const slideWrap = slideWrapRef.current,
+            slideContent = slideContentRef.current;
+        const scrollIndicatorLeft = scrollIndicatorLeftRef.current,
+            scrollIndicatorRight = scrollIndicatorRightRef.current;
         let maxScrollX = slideContent.offsetWidth - slideWrap.offsetWidth;
         let scrollStartX = 0, 
             currentTranslateX = 0;
+
+        function scrollIndicators() {
+            const slideWrapX = Number(slideWrap.getBoundingClientRect().x.toFixed(0)),
+                slideContentX = Number(slideContent.getBoundingClientRect().x.toFixed(0));
+            const slideWrapRight = Number(slideWrap.getBoundingClientRect().right.toFixed(0)),
+                slideContentRight = Number(slideContent.getBoundingClientRect().right.toFixed(0));
+            
+            scrollIndicatorLeft.classList.toggle('open', slideContentX + 40 < slideWrapX);
+            scrollIndicatorRight.classList.toggle('open', slideContentRight - 40 > slideWrapRight);
+        };
+        scrollIndicators();
 
         function handleScrollStart(event) {
             event.preventDefault();
@@ -270,6 +285,7 @@ function MainRight() {
                         newTranslateX = Math.max(-maxScrollX, Math.min(0, newTranslateX));
                         slideContent.style.transform = `translateX(${newTranslateX}px)`;
                         currentTranslateX = newTranslateX;
+                        scrollIndicators();
                     }
                     break;
                 case MouseEvent:
@@ -311,6 +327,7 @@ function MainRight() {
                     }
                     break;
             }
+            scrollIndicators();
         };
         function handleScrollStop(event) {
             switch(event.constructor) {
@@ -322,7 +339,19 @@ function MainRight() {
                     break;
             }
         };
-        
+        /*
+        const throttledHandleScrollMove = throttle(handleScrollMove, 16);
+        function throttle(func, limit) {
+            let inThrottle;
+            return function (...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(() => (inThrottle = false), limit);
+                }
+            };
+        };
+        */
         slideContent.addEventListener('touchstart', handleScrollStart);
         slideContent.addEventListener('mousedown', handleScrollStart);
         slideContent.addEventListener('mousewheel', handleScrollStart);
@@ -377,12 +406,18 @@ function MainRight() {
                 </div>
 
                 <div id="slide-wrap" ref={slideWrapRef}>
+                    <div id="scroll-indicator-left" ref={scrollIndicatorLeftRef}>
+                    </div>
+                    
                     <ul id="slide-menu" ref={slideMenuRef}>
                         <li id="slide-menu-item" onClick={() => setContentState(CONTENTSTATES.specialOffers)}>Special Offers</li>
                         <li id="slide-menu-item" onClick={() => setContentState(CONTENTSTATES.news)}>News</li>
                         <li id="slide-menu-item" onClick={() => setContentState(CONTENTSTATES.changelog)}>Changelog</li>
                     </ul>
                     <SlideContent />
+
+                    <div id="scroll-indicator-right" ref={scrollIndicatorRightRef}>
+                    </div>
                 </div>
 
             </div>
