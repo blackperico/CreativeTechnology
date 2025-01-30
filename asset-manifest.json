@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/CreativeTechnology/static/css/main.d79b3cab.css",
+    "main.css": "/CreativeTechnology/static/css/main.2d89acd1.css",
     "main.js": "/CreativeTechnology/static/js/main.90f09bc2.js",
     "static/js/453.7e4e8a1d.chunk.js": "/CreativeTechnology/static/js/453.7e4e8a1d.chunk.js",
     "static/media/eldenring1.png": "/CreativeTechnology/static/media/eldenring1.e74636429444325cd18c.png",
@@ -34,12 +34,12 @@
     "static/media/wt5.jpg": "/CreativeTechnology/static/media/wt5.22d04b4dc0ad9e33caf5.jpg",
     "static/media/changelog.webp": "/CreativeTechnology/static/media/changelog.e5d57c164e892bc40439.webp",
     "index.html": "/CreativeTechnology/index.html",
-    "main.d79b3cab.css.map": "/CreativeTechnology/static/css/main.d79b3cab.css.map",
+    "main.2d89acd1.css.map": "/CreativeTechnology/static/css/main.2d89acd1.css.map",
     "main.90f09bc2.js.map": "/CreativeTechnology/static/js/main.90f09bc2.js.map",
     "453.7e4e8a1d.chunk.js.map": "/CreativeTechnology/static/js/453.7e4e8a1d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d79b3cab.css",
+    "static/css/main.2d89acd1.css",
     "static/js/main.90f09bc2.js"
   ]
 }
