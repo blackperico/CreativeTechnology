@@ -345,6 +345,9 @@ body {height: fit-content;}
     #slide-container {width: 100%;
         transform: translateX(97%);}
     #slide-container.hover-closed {transform: translateX(95%);}
+
+    #scroll-indicator-left.open {width: 20px;}
+    #scroll-indicator-right.open {width: 20px;}
 }
 @media screen and (max-width: 629px) {
     .article-box {max-width: 340px;}
