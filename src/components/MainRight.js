@@ -26,6 +26,7 @@ function MainRight() {
     };
     const [displayState, setDisplayState] = useState(DISPLAYSTATES.close);
     const [contentState, setContentState] = useState(CONTENTSTATES.specialOffers);
+    const [isTiny, setIsTiny] = useState(undefined);
 
     function SlideContent() {
         const {[contentState] : contentItems} = jsonData.find(content => content[contentState]);
@@ -274,6 +275,8 @@ function MainRight() {
             scrollIndicatorRight.classList.toggle('open', slideContentRight - 40 > slideWrapRight);
         };
         scrollIndicators();
+        if(isTiny)
+            scrollIndicatorRight.classList.add('open');
 
         function handleScrollStart(event) {
             event.preventDefault();
@@ -373,6 +376,11 @@ function MainRight() {
                 element.classList.toggle('tiny', isTiny);
             });
 
+            if(isTiny)
+                setIsTiny(true);
+            else
+                setIsTiny(false);
+
             maxScrollX = slideContent.offsetWidth - slideWrap.offsetWidth;
         };
         checkHeight();
@@ -390,7 +398,7 @@ function MainRight() {
             window.removeEventListener('touchend', handleScrollStop);
             window.removeEventListener('mouseup', handleScrollStop);
         }
-    }, [contentState, displayState]);
+    }, [contentState, displayState, isTiny]);
     
     return(
         <div id="main-right" ref={mainRightRef}>
