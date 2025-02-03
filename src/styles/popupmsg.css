@@ -4,7 +4,7 @@
     align-content: center;
     justify-content: space-around;
     align-items: center;
-    position: absolute;
+    position: fixed;
     left: calc(50% - 150px);
     height: 150px;
     width: 300px; 
@@ -23,10 +23,10 @@
     animation-fill-mode: forwards;}
 @keyframes drop-in {
     from {top: -200px;}
-    to {top: 150px;}
+    to {top: 100px;}
 }
 @keyframes fade-out {
-    from {top: 150px;
+    from {top: 100px;
         opacity: 1;}
     to {top: 200px;
         opacity: 0;}
