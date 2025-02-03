@@ -1,0 +1,47 @@
+#msg-container {display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    left: calc(50% - 150px);
+    height: 150px;
+    width: 300px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    background-color: rgba(240, 248, 255, 0.87);
+    box-shadow: 0 0 50px 15px rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    border: 3px solid #fff;}
+.drop-in-class {animation-name: drop-in;
+    animation-duration: 1200ms;
+    animation-timing-function: cubic-bezier(0.45, 0.32, 0.59, 1.15);
+    animation-fill-mode: forwards;}
+.fade-out-class {animation-name: fade-out;
+    animation-duration: 1500ms;
+    animation-fill-mode: forwards;}
+@keyframes drop-in {
+    from {top: -200px;}
+    to {top: 150px;}
+}
+@keyframes fade-out {
+    from {top: 150px;
+        opacity: 1;}
+    to {top: 200px;
+        opacity: 0;}
+}
+.usernames {list-style-type: none;}
+#username-title {font-size: 20px;
+    font-weight: 600;
+    text-decoration: underline;}
+.usernames li {text-align: center;
+    font-size: 15px;
+    font-weight: 400;}
+.passwords {list-style-type: none;}
+#password-title {font-size: 20px;
+    font-weight: 600;
+    text-decoration: underline;}
+.passwords li {text-align: center;
+    font-size: 15px;
+    font-weight: 400;}

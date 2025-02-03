@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import '../styles/AccountOperations.css';
 import accountsResponse from '../accounts.json';
+import PopupMsg from './PopupMsg';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
@@ -128,6 +129,8 @@ function Login({prop}) {
     };
 
     return(
+        <>
+        <PopupMsg />
         <div id="container">
             <Helmet>
                 <title>Log in | CreativeTechnology</title>
@@ -171,6 +174,7 @@ function Login({prop}) {
                 <Link to="/CreateAccount">Create account</Link>
             </div>
         </div>
+        </>
     )
 };
 
